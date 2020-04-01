@@ -1,24 +1,23 @@
 var objetos = {
     0:
         {
-            "name":"Pinar", "img":"pinar", "ptox":"166", "ptoy":"218",
+            "name":"Pinar", "img":"pinar", "ptox":"159", "ptoy":"53",
             "ptos":{
-                0:{"ptox":"184", "ptoy":"207"},
-                1:{"ptox":"186", "ptoy":"223"},
-                2:{"ptox":"191", "ptoy":"230"},
-                3:{"ptox":"187", "ptoy":"232"},
-                4:{"ptox":"163", "ptoy":"248"},
-                5:{"ptox":"156", "ptoy":"261"},
-                6:{"ptox":"141", "ptoy":"258"},
-                7:{"ptox":"113", "ptoy":"264"},
-                8:{"ptox":"106", "ptoy":"279"},
-                9:{"ptox":"90", "ptoy":"285"},
-                10:{"ptox":"77", "ptoy":"295"},
-                11:{"ptox":"69", "ptoy":"281"},
-                12:{"ptox":"49", "ptoy":"282"},
-                13:{"ptox":"90", "ptoy":"271"},
-                14:{"ptox":"83", "ptoy":"247"},
-                15:{"ptox":"172", "ptoy":"203"},
+                0:{"ptox":"43", "ptoy":"112"},
+                1:{"ptox":"75", "ptoy":"79"},
+                2:{"ptox":"100", "ptoy":"134"},
+                3:{"ptox":"157", "ptoy":"37"},
+                4:{"ptox":"172", "ptoy":"41"},
+                5:{"ptox":"174", "ptoy":"53"},
+                6:{"ptox":"178", "ptoy":"57"},
+                7:{"ptox":"176", "ptoy":"64"},
+                8:{"ptox":"153", "ptoy":"80"},
+                9:{"ptox":"147", "ptoy":"91"},
+                10:{"ptox":"123", "ptoy":"91"},
+                11:{"ptox":"102", "ptoy":"95"},
+                12:{"ptox":"99", "ptoy":"106"},
+                13:{"ptox":"70", "ptoy":"123"},
+                14:{"ptox":"46", "ptoy":"118"},
             }
         },
     1:
@@ -88,14 +87,13 @@ var objetos = {
 
 (function() {
     'use strict';
-    //window.addEventListener('load', init, false);
-
+    window.addEventListener('load', init, false);
     var canvas = null, ctx = null;
     var lastPress = null;
     var mousex = 0, mousey = 0;
     var img = new Image();
-    var img_variable = "{{ base_url() }}web/img/cuba/objeto.png";
-    //img.src = img_variable.replace("objeto",objetos[4].img);
+    var img_variable = "web/img/cuba/objeto.png";
+    img.src = img_variable.replace("objeto",objetos[4].img);
     var scaleX = null;
     var scaleY = null;
     var rect = null;
@@ -122,7 +120,7 @@ var objetos = {
 
     function paint(ctx) {
         canvas.width = canvas.width;
-        ctx.drawImage(img, 0, 0,canvas.width-5, canvas.height-5);
+        ctx.drawImage(img, 0, 0,canvas.width-5, canvas.height-50);
         lastPress = null;
     }
 
@@ -136,6 +134,7 @@ var objetos = {
 
         //actualizando la imagen
         canvas.addEventListener('click', function (evt) {
+            //console.log(mousex+":"+mousey);
             objeto_mas_cercano(mousex, mousey);
             lastPress = evt.which;
         }, false);
@@ -155,13 +154,29 @@ var objetos = {
             "ptox":pto1x,
             "ptoy":pto1y
         }
-        var punto_final = ultimo_punto(objetos[objeto_pos].ptos);
+
+        var punto_final = ultimo_punto(objeto_pos);
         var ptos_figura = JSON.parse(JSON.stringify(objetos[objeto_pos].ptos));
         for (var punto in objetos[objeto_pos].ptos){
             if (punto_final != punto){
                 var pto_intercepcion = pto_rectas_cruzadas(objeto_pos, objetos[objeto_pos].ptos[parseInt(punto)], objetos[objeto_pos].ptos[parseInt(punto)+1], ptoP);
-
-                if ( entre_ptos(pto_intercepcion, objetos[objeto_pos].ptos[parseInt(punto)], objetos[objeto_pos].ptos[parseInt(punto)+1]) == true){
+                console.log("Punto de intersec:");
+                console.log(pto_intercepcion);
+                console.log("Centro de objeto");
+                console.log(objetos[objeto_pos]);
+                console.log("Punto Marcado:");
+                console.log(ptoP);
+                console.log("Entre ptos:");
+                console.log(objetos[objeto_pos].ptos[parseInt(punto)]);
+                console.log(objetos[objeto_pos].ptos[parseInt(punto)+1]);
+                //console.log("Distancias Medidas:");
+                //console.log(distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,ptoP.ptox,ptoP.ptoy));
+                //console.log(distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,pto_intercepcion.ptox, pto_intercepcion.ptoy));
+                if (
+                    entre_ptos(pto_intercepcion, objetos[objeto_pos].ptos[parseInt(punto)], objetos[objeto_pos].ptos[parseInt(punto)+1]) == true &&
+                    (distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,ptoP.ptox,ptoP.ptoy) <
+                    distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,pto_intercepcion.ptox, pto_intercepcion.ptoy))
+                ){
                     return true;
                 }
             }else{return false;}
@@ -222,12 +237,14 @@ var objetos = {
     function distancia_entre_ptos(ptox1, ptoy1, ptox2, ptoy2){
         var cateto_a = ptox1-ptox2;
         var cateto_b = ptoy1-ptoy2;
+        console.log("catA:"+cateto_a);
+        console.log("catB:"+cateto_b);
         return Math.sqrt(Math.pow(cateto_a, 2)+Math.pow(cateto_b, 2));
     }
 
     function ultimo_punto(objeto_pos){
         var i = 0;
-        for (i in objeto_pos){
+        for (i in objetos[objeto_pos].ptos){
         }
         return i;
     }
