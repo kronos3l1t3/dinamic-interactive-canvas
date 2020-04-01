@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/mapa_dinamico.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapa_dinamico.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +54,7 @@
       <option name="presentableId" value="Default" />
       <updated>1585702144591</updated>
       <workItem from="1585702146311" duration="6560000" />
-      <workItem from="1585765982101" duration="737000" />
+      <workItem from="1585765982101" duration="1476000" />
     </task>
     <servers />
   </component>

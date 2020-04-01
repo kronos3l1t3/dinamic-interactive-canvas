@@ -160,18 +160,7 @@ var objetos = {
         for (var punto in objetos[objeto_pos].ptos){
             if (punto_final != punto){
                 var pto_intercepcion = pto_rectas_cruzadas(objeto_pos, objetos[objeto_pos].ptos[parseInt(punto)], objetos[objeto_pos].ptos[parseInt(punto)+1], ptoP);
-                console.log("Punto de intersec:");
-                console.log(pto_intercepcion);
-                console.log("Centro de objeto");
-                console.log(objetos[objeto_pos]);
-                console.log("Punto Marcado:");
-                console.log(ptoP);
-                console.log("Entre ptos:");
-                console.log(objetos[objeto_pos].ptos[parseInt(punto)]);
-                console.log(objetos[objeto_pos].ptos[parseInt(punto)+1]);
-                //console.log("Distancias Medidas:");
-                //console.log(distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,ptoP.ptox,ptoP.ptoy));
-                //console.log(distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,pto_intercepcion.ptox, pto_intercepcion.ptoy));
+
                 if (
                     entre_ptos(pto_intercepcion, objetos[objeto_pos].ptos[parseInt(punto)], objetos[objeto_pos].ptos[parseInt(punto)+1]) == true &&
                     (distancia_entre_ptos(objetos[objeto_pos].ptox,objetos[objeto_pos].ptoy,ptoP.ptox,ptoP.ptoy) <
@@ -237,8 +226,6 @@ var objetos = {
     function distancia_entre_ptos(ptox1, ptoy1, ptox2, ptoy2){
         var cateto_a = ptox1-ptox2;
         var cateto_b = ptoy1-ptoy2;
-        console.log("catA:"+cateto_a);
-        console.log("catB:"+cateto_b);
         return Math.sqrt(Math.pow(cateto_a, 2)+Math.pow(cateto_b, 2));
     }
 
