@@ -9,36 +9,55 @@
       Select a file for the canvas font: <input type="file" name="myFile" id="imagen"><br><br>
       <input type="text" id = "height" value = "800">
       <input type="text" id = "width" value = "600">
-      <input type="button" id = "submit">
+      <input type="button" id = "submit" value="Doble click para pintar">
     </form>
-    <div id = "lienzo">
-      </div>
-  <script src="js/mapa_dinamico.js"></script>
+    <canvas id = 'canvas'></canvas>
+
+  <!-- <script src="js/mapa_dinamico.js"></script> -->
   <script>
-    var element = document.getElementById("lienzo");
-    var button = document.getElementById("submit");
+    function $(id){
+      return document.getElementById(id);
+    }
+  (function() {
+    'use strict';
+
+    var button = $("submit");
+    var canvas = $('canvas'), ctx = null;
+    var lastPress = null;
+    var mousex = 0, mousey = 0;
+    var scaleX = null;
+    var scaleY = null;
+    var ctx = canvas.getContext('2d');
+    var rect = canvas.getBoundingClientRect();
+    var img_canvas = new Image();
 
     button.addEventListener('click', function (){
-      var img = document.getElementById("imagen");
+
+      var img = $("imagen");
       var img_new = img.value.replace("C:\\fakepath\\", "");
       var size = {
-        width: document.getElementById('width').value,
-        height: document.getElementById('height').value
+        width: $('width').value,
+        height: $('height').value
       }
-      element.innerHTML = "<canvas id = 'canvas' width='"+size.width+"' height='"+size.height+"'></canvas>";
-      canvas = document.getElementById('mapa_canva');
-      ctx = canvas.getContext('2d');
-      rect = canvas.getBoundingClientRect();
       scaleX = canvas.width / rect.width;
       scaleY = canvas.height / rect.height;
-      var img_canvas = new Image();
       img_canvas.src= "img_maps/"+img_new;
-      window.setTimeout(paint(ctx, img_canvas), 25);
+
+      window.setTimeout(paint(img_canvas), 25);
 
     });
-    function paint(ctx, img_canvas){
-      ctx.drawImage(img_canvas, 0, 0,canvas.width-5, canvas.height-50);
+
+    function paint(img_canvas){
+      ctx.drawImage(img_canvas, 0, 0, canvas.width-5, canvas.height-5);
     }
+
+    window.addEventListener("resize", function(){
+        rect = canvas.getBoundingClientRect();
+        scaleX = canvas.width / rect.width;
+        scaleY = canvas.height / rect.height;
+    }, false);
+
+  })();
   </script>
   </body>
 </html>
