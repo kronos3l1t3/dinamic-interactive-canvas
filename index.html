@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+  </head>
+  <body>
+    <form>
+      Select a file for the canvas font: <input type="file" name="myFile" id="imagen"><br><br>
+      <input type="text" id = "height" value = "800">
+      <input type="text" id = "width" value = "600">
+      <input type="button" id = "submit">
+    </form>
+    <div id = "lienzo">
+      </div>
+  <script src="js/mapa_dinamico.js"></script>
+  <script>
+    var element = document.getElementById("lienzo");
+    var button = document.getElementById("submit");
+
+    button.addEventListener('click', function (){
+      var img = document.getElementById("imagen");
+      var img_new = img.value.replace("C:\\fakepath\\", "");
+      var size = {
+        width: document.getElementById('width').value,
+        height: document.getElementById('height').value
+      }
+      element.innerHTML = "<canvas id = 'canvas' width='"+size.width+"' height='"+size.height+"'></canvas>";
+      canvas = document.getElementById('mapa_canva');
+      ctx = canvas.getContext('2d');
+      rect = canvas.getBoundingClientRect();
+      scaleX = canvas.width / rect.width;
+      scaleY = canvas.height / rect.height;
+      var img_canvas = new Image();
+      img_canvas.src= "img_maps/"+img_new;
+      window.setTimeout(paint(ctx, img_canvas), 25);
+
+    });
+    function paint(ctx, img_canvas){
+      ctx.drawImage(img_canvas, 0, 0,canvas.width-5, canvas.height-50);
+    }
+  </script>
+  </body>
+</html>
