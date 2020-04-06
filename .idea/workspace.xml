@@ -4,7 +4,6 @@
     <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/mapa_dinamico.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapa_dinamico.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +16,11 @@
     </execution>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="luisv kronos &lt;desarrollo@bidaiondo.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1ZuwAcHEe5XBnwXlCDHMLFqsVKm" />
@@ -29,7 +33,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/html/php5/cubanacan/portal/application/views/home/index.twig" />
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -54,7 +58,10 @@
       <option name="presentableId" value="Default" />
       <updated>1585702144591</updated>
       <workItem from="1585702146311" duration="6560000" />
-      <workItem from="1585765982101" duration="1476000" />
+      <workItem from="1585765982101" duration="3767000" />
+      <workItem from="1586029145892" duration="5823000" />
+      <workItem from="1586109388347" duration="5425000" />
+      <workItem from="1586134941449" duration="5785000" />
     </task>
     <servers />
   </component>
@@ -62,13 +69,30 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="467" y="122" key="FileChooserDialogImpl" timestamp="1585716240605">
+    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1586146494186">
       <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586146494186" />
+    <state x="467" y="123" width="430" height="486" key="FileChooserDialogImpl" timestamp="1585771815969">
+      <screen x="0" y="0" width="1366" height="737" />
     </state>
     <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1585716240605" />
-    <state x="347" y="160" key="run.anything.popup" timestamp="1585704360573">
+    <state x="467" y="123" width="430" height="486" key="FileChooserDialogImpl/0.0.1366.737@0.0.1366.737" timestamp="1585771815969" />
+    <state x="531" y="282" key="VCS.ChangelistChooser" timestamp="1586146452294">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1585704360573" />
+    <state x="531" y="282" key="VCS.ChangelistChooser/0.0.1366.732@0.0.1366.732" timestamp="1586146452294" />
+    <state x="362" y="193" key="com.intellij.ide.util.TipDialog" timestamp="1586134940123">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="362" y="193" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586134940123" />
+    <state x="347" y="160" key="run.anything.popup" timestamp="1586135309660">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1586135309660" />
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1586044873193">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1586044873193" />
   </component>
 </project>
