@@ -191,7 +191,7 @@ async function add_event_handler(){
         "<input value='Remover' id = 'remove' type='button'/></div><br>" +
         "<div id = 'properties'></div>";
 
-    var object = clone(elements_properties);
+    let object = clone(elements_properties);
     object.name = 'canvas';
     object.width = 640;
     object.height = 480;
