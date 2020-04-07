@@ -91,12 +91,14 @@ var objetos = {
     var canvas = null, ctx = null;
     var lastPress = null;
     var mousex = 0, mousey = 0;
-    var img = new Image();
-    var img_variable = "web/img/cuba/objeto.png";
-    img.src = img_variable.replace("objeto",objetos[4].img);
     var scaleX = null;
     var scaleY = null;
     var rect = null;
+
+    var img = new Image();
+    var img_variable = "web/img/cuba/objeto.png";
+    img.src = img_variable.replace("objeto",objetos[4].img);
+
 
     window.addEventListener("resize", function(){
         rect = canvas.getBoundingClientRect();

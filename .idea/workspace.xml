@@ -3,7 +3,28 @@
   <component name="ChangeListManager">
     <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/artemisa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/cubablancatransparente.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/habana.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/mapa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/matanzas.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/mayabeque.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/pinar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/pngkit_heart-png_4418016.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/posicion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_maps/transparent.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/canvas_interactivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/canvas_interactivo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/mapa_dinamico.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapa_dinamico.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +42,17 @@
         <option value="luisv kronos &lt;desarrollo@bidaiondo.com&gt;" />
       </list>
     </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1ZuwAcHEe5XBnwXlCDHMLFqsVKm" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -33,7 +62,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/html/php5/cubanacan/portal/application/views/home/index.twig" />
+    <property name="last_opened_file_path" value="/var/www/html/cubanacan/portal/application/modules/circuito/views/_partials/filter.twig" />
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -61,31 +90,65 @@
       <workItem from="1585765982101" duration="3767000" />
       <workItem from="1586029145892" duration="5823000" />
       <workItem from="1586109388347" duration="5425000" />
-      <workItem from="1586134941449" duration="5785000" />
+      <workItem from="1586134941449" duration="6292000" />
+      <workItem from="1586180367197" duration="2467000" />
+      <workItem from="1586205980444" duration="3441000" />
+      <workItem from="1586219549515" duration="11652000" />
     </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1586146495900</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586146495900</updated>
+    </task>
+    <task id="LOCAL-00002" summary="first commit">
+      <created>1586146514241</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586146514241</updated>
+    </task>
+    <task id="LOCAL-00003" summary="properties">
+      <created>1586209786599</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1586209786599</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <MESSAGE value="properties" />
+    <option name="LAST_COMMIT_MESSAGE" value="properties" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1586146494186">
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1586209785881">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586146494186" />
-    <state x="467" y="123" width="430" height="486" key="FileChooserDialogImpl" timestamp="1585771815969">
-      <screen x="0" y="0" width="1366" height="737" />
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586209785881" />
+    <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1586233000096">
+      <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1585716240605" />
+    <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1586233000096" />
     <state x="467" y="123" width="430" height="486" key="FileChooserDialogImpl/0.0.1366.737@0.0.1366.737" timestamp="1585771815969" />
     <state x="531" y="282" key="VCS.ChangelistChooser" timestamp="1586146452294">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="531" y="282" key="VCS.ChangelistChooser/0.0.1366.732@0.0.1366.732" timestamp="1586146452294" />
-    <state x="362" y="193" key="com.intellij.ide.util.TipDialog" timestamp="1586134940123">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1586209805520">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="362" y="193" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586134940123" />
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1586209805520" />
+    <state x="362" y="193" key="com.intellij.ide.util.TipDialog" timestamp="1586219582570">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="362" y="193" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586219582570" />
     <state x="347" y="160" key="run.anything.popup" timestamp="1586135309660">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
