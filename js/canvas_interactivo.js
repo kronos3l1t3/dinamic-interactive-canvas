@@ -65,21 +65,21 @@ function edit_element(){
     var properties = _g("#properties");
     var html = "<div><table>" +
         "<tr><td><label for='name'>Nombre: </label></td>" +
-        "<td><input id = 'name' name = 'name' type = 'text' value = '"+object.name+"'/></td></tr>" +
+        "<td><input id = 'name' name = 'name' type = 'text' value = '"+object.name+"' "+((object.name=='canvas')?'readonly':'')+"/></td></tr>" +
         "<tr><td><label for='img'>Imagen: </label></td>" +
         "<td><input id = 'img' name = 'img' type='file' value = '"+object.img+"' style='color: transparent' /></td></tr>" +
         "<tr><td><label for='img_ptox'>Posicion (x;y): </label></td>" +
         "<td><input id = 'img_ptox' name = 'img_ptox' type='text' size='1%' value = '"+object.img_ptox+"' />" +
         "<input id = 'img_ptoy' name = 'img_ptoy' type='text' size='1%' value = '"+object.img_ptoy+"' />" +
         "<label for='check_point' >Marcar</label><input id = 'check_point' name = 'check_point' type = 'checkbox' /></td></tr>" +
-        "<tr><td><label for='ptos'>Figuras: </label></td>" +
-        "<td><input id = 'shapes' name = 'shapes' type='buuton'/></td></tr>" +
         "<tr><td><label for='height'>Altura: </label></td>" +
         "<td><input id = 'width' name = 'width' type='text' value = '"+object.width+"'/></td></tr>" +
         "<tr><td><label for='width'>Ancho: </label></td>" +
         "<td><input id = 'height' name = 'height' type='text' value = '"+object.height+"'/></td></tr>" +
         "<tr><td><label for='visibility'>Visible: </label></td>" +
         "<td><input id = 'visibility' name = 'visibility' type='checkbox' "+((object.visibility == true)?'checked':'')+"/></td></tr>" +
+        "<tr><td><label for='ptos'>Figuras: </label></td>" +
+        "<td><input id = 'shapes' name = 'shapes' type='button'/></td></tr>" +
         "<tr><td><label for='event'>Eventos: </label></td>" +
         "<td><input id = 'events' name = 'events' type='text' value = '"+object.event+"' /></td></tr>" +
         "</table></div>";
@@ -99,7 +99,7 @@ function show_elment(){
     var select = _g("#elements");
     if(elements_array[select.selectedIndex].img != null){
         var img = new Image();
-        console.log(elements_array[select.selectedIndex].img);
+        //console.log(elements_array[select.selectedIndex].img);
         img.src = elements_array[select.selectedIndex].img;
         canvas.drawImage(
             img,
@@ -126,10 +126,13 @@ function save_props(id_name){
                     ((id_name=='img')?("'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'"):(_g('#'+id_name).value));
     eval(sentence);
     if(select.selectedIndex == 0){
-
-        lienzo.width = parseInt(elements_array[select.selectedIndex].height);
-        lienzo.height = parseInt(elements_array[select.selectedIndex].width);
+        lienzo.width = parseInt(object.height);
+        lienzo.height = parseInt(object.width);
     }
+    if(id_name='name') {
+        console.log(id_name);
+        select.value = object.name;
+    };
     show_elment();
     setTimeout(show_elment,25);
 };
@@ -154,7 +157,6 @@ lienzo.addEventListener('mousemove', function (evt) {
 }, false);
 
 lienzo.addEventListener('click', function (evt) {
-    //console.log(mousex+":"+mousey);
     var select = _g("#elements");
     var check_point = _g("#check_point");
     var object = elements_array[select.selectedIndex];
