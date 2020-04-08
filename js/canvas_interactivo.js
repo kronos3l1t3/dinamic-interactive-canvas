@@ -30,12 +30,14 @@ var elements_properties = {
     event:{},
 }
 
-//Figuras dentro del objeto
 var shape = {
-    ptos:{
-        x:null,
-        y:null
-    }
+    name:null,
+    shape_points:{}
+}
+//Figuras dentro del objeto
+var shape_point = {
+    x:null,
+    y:null
 }
 
 
@@ -54,8 +56,9 @@ function create_element(){
         elements_array[node.id] = object;
         node.appendChild(textnode);
         elements_variable.appendChild(node);
+        elements_variable.selectedIndex = node.id;
     }
-
+    edit_element();
 };
 
 // Mostrar un elemento del arreglo
@@ -79,9 +82,9 @@ function edit_element(){
         "<tr><td><label for='visibility'>Visible: </label></td>" +
         "<td><input id = 'visibility' name = 'visibility' type='checkbox' "+((object.visibility == true)?'checked':'')+"/></td></tr>" +
         "<tr><td><label for='ptos'>Figuras: </label></td>" +
-        "<td><input id = 'shapes' name = 'shapes' type='button'/></td></tr>" +
+        "<td><input id = 'shapes' name = 'shapes' type='text' value = '"+JSON.stringify(object.shapes)+"' size='12%'/><input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir'/></td></tr>" +
         "<tr><td><label for='event'>Eventos: </label></td>" +
-        "<td><input id = 'events' name = 'events' type='text' value = '"+object.event+"' /></td></tr>" +
+        "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.event)+"' size='12%'/><input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
         "</table></div>";
     properties.innerHTML = html;
     save();
@@ -91,7 +94,9 @@ function edit_element(){
 // Eliminar un elemento del arreglo
 function delete_element(){
     var select = _g("#elements");
-    select.remove(select.selectedIndex);
+    if(select.value != 'canvas') select.remove(select.selectedIndex);
+    else alert('No es posible eliminar el canvas');
+    edit_element();
 };
 
 // Mostrar un elemento del arreglo
@@ -99,7 +104,7 @@ function show_elment(){
     var select = _g("#elements");
     if(elements_array[select.selectedIndex].img != null){
         var img = new Image();
-        //console.log(elements_array[select.selectedIndex].img);
+        console.log(elements_array[select.selectedIndex].img);
         img.src = elements_array[select.selectedIndex].img;
         canvas.drawImage(
             img,
@@ -227,6 +232,7 @@ function generate(){
 
 }
 
+//Anadiendo eventos iniciales
 async function add_event_handler(){
     addE('#create','click',create_element);
     addE('#remove','click',delete_element);
@@ -234,6 +240,7 @@ async function add_event_handler(){
     addE('#generate','click',generate);
 }
 
+// Funcion inicial del sistema
 (async function(){
     'use strict';
     props.innerHTML = "<div>" +
