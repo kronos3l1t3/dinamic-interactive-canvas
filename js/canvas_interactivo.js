@@ -1,3 +1,5 @@
+// ++++++++ Variables del Sistema +++++++++
+
 var lienzo = _g('#canvas');
 var canvas = lienzo.getContext('2d');
 
@@ -70,11 +72,19 @@ var actions = {
 
         }
     }
+    3:{
+        name:'text_show',
+        element_id:null,
+        _do: function () {
+
+        }
+    }
 }
+// -------- Fin Variables del Sistema ----------
 
 // ++++Crud de objetos JSON++++
 
-// Crear elemento dentro del select "Vista"
+// Crear elemento imagenes
 function create_element(){
     var object_name = window.prompt("Escriba un nombre para el nuevo elemento");
     if (object_name != null){
@@ -105,7 +115,7 @@ function edit_element(){
         "<tr><td><label >Posicion (x;y): </label></td>" +
         "<td><input id = 'img_ptox' name = 'img_ptox' type='text' size='1%' value = '"+object.img_ptox+"' />" +
         "<input id = 'img_ptoy' name = 'img_ptoy' type='text' size='1%' value = '"+object.img_ptoy+"' />" +
-        "<label for='check_point' >Marcar</label><input id = 'check_point' name = 'check_point' type = 'checkbox' /></td></tr>" +
+        "<label for='check_point' > Marcar</label><input id = 'check_point' name = 'check_point' type = 'checkbox' /></td></tr>" +
         "<tr><td><label for='height'>Altura: </label></td>" +
         "<td><input id = 'width' name = 'width' type='text' value = '"+object.width+"'/></td></tr>" +
         "<tr><td><label for='width'>Ancho: </label></td>" +
@@ -119,8 +129,7 @@ function edit_element(){
         "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.events)+"' size='12%'/>" +
         "<input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
         "</table></div>" +
-        "<div style='visibility: hidden; float: left; width: 30%;' id='sub_properties'>" +
-        "<input type='button' id='close_subproperties' name = 'close_subproperties' value='&times'/>" +
+        "<div style='visibility: hidden;' id='sub_properties'>" +
         "</div>";
     properties.innerHTML = html;
     save();
@@ -187,22 +196,74 @@ function save_props(id_name){
     setTimeout(show_elments,25);
 };
 
+function draw_line(ptox1,ptoy1,ptox2,ptoy2) {
+    canvas.moveTo(ptox1, ptoy1);
+    canvas.lineTo(ptox2, ptoy2);
+    canvas.stroke();
+}
+
 function open_subproperties(object){
     var sub_properties = _g('#sub_properties');
-
+    var select = _g('#elements');
+    sub_properties.innerHTML = "Figuras: <br><input type='button' id='close_subproperties' name = 'close_subproperties' value='&times' title=\"Cerrar\"/>";
     switch (object) {
         case 'open_shapes':
+            sub_properties.innerHTML +=
+                "<input align='right' type='button' value='+' id='add_shape' name='add_shape' title=\"Adicionar Figura\" />" +
+                "<select style='visibility: hidden' id='select_shape' name='select_shape'></select>" +
+                "<table id='shape_table'></table>";
+            if (
+                JSON.stringify(elements_array[select.selectedIndex].shapes) != "{}" &&
+                JSON.stringify(elements_array[select.selectedIndex].shapes) != ""
+            ){
+                _g('#select_shape').style= "visibility: visible;";
+            }else{
+
+            }
             break;
         case 'open_events':
             break;
     }
-    sub_properties.style = "visibility: visible; float: left; margin-top: 0.5%;";
+    sub_properties.style = "visibility: visible; float: left; margin-top: 0.4%; width: 10%;";
     addE('#close_subproperties','click',close_subproperties);
+    addE('#select_shape','change',change_shape);
+    addE('#add_shape','click',add_shape);
+
 }
 
+// +++++++++++++ Funciones de las sub-propiedades de un objeto ++++++++++++++
 function close_subproperties() {
-    sub_properties.style = "visibility: hidden; width: 49%; float: left;";
+    sub_properties.style = "visibility: hidden;";
 }
+// ------------- Fin de las funciones de las sub-propiedades de un objeto -------------
+
+// Funcionalidades de figuras
+
+// +++++++++++++ CRUD Figuras ++++++++++++++
+
+function add_shape() {
+    var select = _g('#elements');
+    var selected_shape = _g('#select_shape');
+    var shape_name = prompt("Diga el nombre de la figura: ");
+    if(shape_name != null){
+        var shape_object = clone(shape);
+        shape_object.name = shape_name;
+        var table_shape = _g('#shape_table');
+        table_shape.innerHTML = "<tr><td>" +
+                                        "<label for='shape_name'>Nombre: </label><input type='text' id='shape_name' value = '"+shape_name+"'/>" +
+                               "</td></tr>" +
+                                "<tr><td>" +
+                                    "<label for='Ptos'>Ptos: </label><input type='text' id='Ptos' size='1%'/> Marcar: <input type='checkbox' id='mark_shape'>" +
+                                "</td></tr>";
+    }
+}
+
+function change_shape(){
+    var select = _g('#elements');
+    var selected_shape = _g('#select_shape');
+}
+
+// -------------- Fin CRUD Figuras --------------
 
 function save(){
     addE('#name','keyup',save_props,'name');
@@ -227,13 +288,14 @@ lienzo.addEventListener('mousemove', function (evt) {
 
 lienzo.addEventListener('click', function (evt) {
     var select = _g("#elements");
-    var check_point = _g("#check_point");
     var object = elements_array[select.selectedIndex];
-    if(check_point.checked == true){
+    if(_g("#check_point").checked == true){
         _g("#img_ptox").value = mousex-object.width/2;
         _g("#img_ptoy").value = mousey-object.height/2;
         save_props("img_ptox");
         save_props("img_ptoy");
+    }else if(_g("#check_shape").checked == true){
+
     }
 }, false);
 
@@ -288,14 +350,6 @@ function clone(obj) {
     return copy;
 };
 
-/*function selector(){
-    edit_element();
-}*/
-
-function generate(){
-
-}
-
 //Anadiendo eventos iniciales
 async function add_event_handler(){
     addE('#create','click',create_element);
@@ -324,3 +378,8 @@ async function add_event_handler(){
 
 })();
 
+// ++++++++++++++ Funcion para generar o exportar el codigo del canvas "coming sun" ++++++++++++++++++
+function generate(){
+
+}
+// --------------Fin de exportacion del canvas -------------------
