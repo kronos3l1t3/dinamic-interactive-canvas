@@ -69,13 +69,6 @@ var actions = {
         _do: function () {
 
         }
-    },
-    3:{
-        name:'array_action',
-        element_id:null,
-        _do: function () {
-
-        }
     }
 }
 
@@ -104,7 +97,7 @@ function edit_element(){
     var select = _g("#elements");
     var object = elements_array[select.selectedIndex];
     var properties = _g("#properties");
-    var html = "<div style='visibility: visible; display: inline-block; width: 49%; z-index: 1;'><table>" +
+    var html = "<div style='visibility: visible; width: 30%; float: left;'><table>" +
         "<tr><td><label for='name'>Nombre: </label></td>" +
         "<td><input id = 'name' name = 'name' type = 'text' value = '"+object.name+"' "+((object.name=='canvas')?'readonly':'')+"/></td></tr>" +
         "<tr><td><label for='img'>Imagen: </label></td>" +
@@ -120,10 +113,15 @@ function edit_element(){
         "<tr><td><label for='visibility'>Visible: </label></td>" +
         "<td><input id = 'visibility' name = 'visibility' type='checkbox' "+((object.visibility == true)?'checked':'')+"/></td></tr>" +
         "<tr><td><label for='ptos'>Figuras: </label></td>" +
-        "<td><input id = 'shapes' name = 'shapes' type='text' value = '"+JSON.stringify(object.shapes)+"' size='12%'/><input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir'/></td></tr>" +
+        "<td><input id = 'shapes' name = 'shapes' type='text' value = '"+JSON.stringify(object.shapes)+"' size='12%'/>" +
+        "<input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir'/></td></tr>" +
         "<tr><td><label for='event'>Eventos: </label></td>" +
-        "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.events)+"' size='12%'/><input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
-        "</table><table style='visibility: visible; display: inline-block; width: 49%; z-index: 1;'><tr><td>lol</td></tr></table></div>";
+        "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.events)+"' size='12%'/>" +
+        "<input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
+        "</table></div>" +
+        "<div style='visibility: hidden; float: left; width: 30%;' id='sub_properties'>" +
+        "<input type='button' id='close_subproperties' name = 'close_subproperties' value='&times'/>" +
+        "</div>";
     properties.innerHTML = html;
     save();
     show_elments();
@@ -172,7 +170,6 @@ function save_props(id_name){
             break;
         case 'visibility':
             var sentence = "object."+id_name+" = "+_g("#"+id_name).checked;
-            console.log(sentence);
             break;
         default:
             var sentence = "object."+id_name+" = "+_g("#"+id_name).value;
@@ -190,6 +187,23 @@ function save_props(id_name){
     setTimeout(show_elments,25);
 };
 
+function open_subproperties(object){
+    var sub_properties = _g('#sub_properties');
+
+    switch (object) {
+        case 'open_shapes':
+            break;
+        case 'open_events':
+            break;
+    }
+    sub_properties.style = "visibility: visible; float: left; margin-top: 0.5%;";
+    addE('#close_subproperties','click',close_subproperties);
+}
+
+function close_subproperties() {
+    sub_properties.style = "visibility: hidden; width: 49%; float: left;";
+}
+
 function save(){
     addE('#name','keyup',save_props,'name');
     addE('#img','change',save_props,'img');
@@ -198,6 +212,8 @@ function save(){
     addE('#height','keyup',save_props,'height');
     addE('#width','keyup',save_props,'width');
     addE('#visibility','click',save_props,'visibility');
+    addE('#open_shapes','click',open_subproperties,'open_shapes');
+    addE('#open_events','click',open_subproperties,'open_events');
 }
 
 
