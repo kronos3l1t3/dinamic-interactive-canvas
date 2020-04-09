@@ -126,13 +126,16 @@ function edit_element(){
         "</table></div>";
     properties.innerHTML = html;
     save();
+    show_elments();
 };
 
 // Eliminar un elemento del arreglo
 function delete_element(){
     var select = _g("#elements");
-    if(select.value != 'canvas') select.remove(select.selectedIndex);
-    else alert('No es posible eliminar el canvas');
+    if(select.value != 'canvas') {
+        delete elements_array[select.selectedIndex];
+        select.remove(select.selectedIndex);
+    }else alert('No es posible eliminar el canvas');
     edit_element();
 };
 
@@ -182,7 +185,6 @@ function save_props(id_name){
     var object = elements_array[select.selectedIndex];
     var sentence = "object."+id_name+" = "+
                     ((id_name=='img')?("'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'"):(_g('#'+id_name).value));
-    console.log(sentence);
     eval(sentence);
     if(select.selectedIndex == 0){
         lienzo.width = parseInt(object.height);
