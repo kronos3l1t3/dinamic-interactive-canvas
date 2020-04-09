@@ -71,7 +71,7 @@ var actions = {
         }
     },
     3:{
-        name:'toogle_show',
+        name:'array_action',
         element_id:null,
         _do: function () {
 
@@ -104,7 +104,7 @@ function edit_element(){
     var select = _g("#elements");
     var object = elements_array[select.selectedIndex];
     var properties = _g("#properties");
-    var html = "<div><table>" +
+    var html = "<div style='visibility: visible; display: inline-block; width: 49%; z-index: 1;'><table>" +
         "<tr><td><label for='name'>Nombre: </label></td>" +
         "<td><input id = 'name' name = 'name' type = 'text' value = '"+object.name+"' "+((object.name=='canvas')?'readonly':'')+"/></td></tr>" +
         "<tr><td><label for='img'>Imagen: </label></td>" +
@@ -123,7 +123,7 @@ function edit_element(){
         "<td><input id = 'shapes' name = 'shapes' type='text' value = '"+JSON.stringify(object.shapes)+"' size='12%'/><input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir'/></td></tr>" +
         "<tr><td><label for='event'>Eventos: </label></td>" +
         "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.events)+"' size='12%'/><input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
-        "</table></div>";
+        "</table><table style='visibility: visible; display: inline-block; width: 49%; z-index: 1;'><tr><td>lol</td></tr></table></div>";
     properties.innerHTML = html;
     save();
     show_elments();
@@ -139,28 +139,11 @@ function delete_element(){
     edit_element();
 };
 
-// Mostrar un elemento del arreglo
-/*function show_elment(){
-    var select = _g("#elements");
-
-    if(elements_array[select.selectedIndex].img != null){
-        var img = new Image();
-        img.src = elements_array[select.selectedIndex].img;
-        canvas.drawImage(
-            img,
-            elements_array[select.selectedIndex].img_ptox,
-            elements_array[select.selectedIndex].img_ptoy,
-            parseInt(elements_array[select.selectedIndex].height),
-            parseInt(elements_array[select.selectedIndex].width)
-        );
-    }
-};*/
-
 // Mostrar todos los elementos del arreglo
 async function show_elments(){
     canvas.clearRect(0,0,lienzo.width, lienzo.height);
     for (element in elements_array){
-        if(elements_array[element].img != null){
+        if(elements_array[element].img != null && elements_array[element].visibility == true){
             var img = new Image();
             img.src = elements_array[element].img;
             canvas.drawImage(
@@ -183,8 +166,18 @@ async function show_elments(){
 function save_props(id_name){
     var select = _g("#elements");
     var object = elements_array[select.selectedIndex];
-    var sentence = "object."+id_name+" = "+
-                    ((id_name=='img')?("'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'"):(_g('#'+id_name).value));
+    switch (id_name) {
+        case 'img':
+            var sentence = "object."+id_name+" = "+"'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'";
+            break;
+        case 'visibility':
+            var sentence = "object."+id_name+" = "+_g("#"+id_name).checked;
+            console.log(sentence);
+            break;
+        default:
+            var sentence = "object."+id_name+" = "+_g("#"+id_name).value;
+            break;
+    }
     eval(sentence);
     if(select.selectedIndex == 0){
         lienzo.width = parseInt(object.height);
@@ -204,7 +197,7 @@ function save(){
     addE('#img_ptoy','keyup',save_props,'img_ptoy');
     addE('#height','keyup',save_props,'height');
     addE('#width','keyup',save_props,'width');
-    addE('#visibility','keyup',save_props,'visibility');
+    addE('#visibility','click',save_props,'visibility');
 }
 
 
@@ -279,9 +272,9 @@ function clone(obj) {
     return copy;
 };
 
-function selector(){
+/*function selector(){
     edit_element();
-}
+}*/
 
 function generate(){
 
@@ -291,7 +284,7 @@ function generate(){
 async function add_event_handler(){
     addE('#create','click',create_element);
     addE('#remove','click',delete_element);
-    addE('#elements','change',selector);
+    addE('#elements','change',edit_element);
     addE('#generate','click',generate);
 }
 

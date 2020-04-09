@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="">
+    <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="-Crear elemento y autoenforcarse&#10;-Eliminar elemento y editar las propiedades del elemento anterior.">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/11.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/12.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/15.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/artemisa.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/cubablancatransparente.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/habana.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/mapa.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/matanzas.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/mayabeque.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/pinar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/pngkit_heart-png_4418016.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/posicion.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img_maps/transparent.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/js/canvas_interactivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/canvas_interactivo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/mapa_dinamico.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapa_dinamico.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +24,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="dev_luis" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -94,6 +74,9 @@
       <workItem from="1586180367197" duration="2467000" />
       <workItem from="1586205980444" duration="3441000" />
       <workItem from="1586219549515" duration="11652000" />
+      <workItem from="1586283229257" duration="8911000" />
+      <workItem from="1586317650780" duration="3413000" />
+      <workItem from="1586355449399" duration="25294000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1586146495900</created>
@@ -116,39 +99,90 @@
       <option name="project" value="LOCAL" />
       <updated>1586209786599</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="seleccion de posicion con el puntero">
+      <created>1586363191511</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1586363191511</updated>
+    </task>
+    <task id="LOCAL-00005" summary="validacion en el nombre de canvas readonly">
+      <created>1586364130902</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1586364130902</updated>
+    </task>
+    <task id="LOCAL-00006" summary="-Crear elemento y autoenforcarse&#10;-Eliminar elemento y editar las propiedades del elemento anterior.">
+      <created>1586374607270</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1586374607270</updated>
+    </task>
+    <task id="LOCAL-00007" summary="-Correccion de error de posicionamiento de imagen">
+      <created>1586392494736</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1586392494736</updated>
+    </task>
+    <task id="LOCAL-00008" summary="-correccion de error eliminacion de elementos">
+      <created>1586394661555</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1586394661555</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
     <MESSAGE value="properties" />
-    <option name="LAST_COMMIT_MESSAGE" value="properties" />
+    <MESSAGE value="seleccion de posicion con el puntero" />
+    <MESSAGE value="validacion en el nombre de canvas readonly" />
+    <MESSAGE value="-Crear elemento y autoenforcarse&#10;-Eliminar elemento y editar las propiedades del elemento anterior." />
+    <MESSAGE value="-Correccion de error de posicionamiento de imagen" />
+    <MESSAGE value="-correccion de error eliminacion de elementos" />
+    <option name="LAST_COMMIT_MESSAGE" value="-correccion de error eliminacion de elementos" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1586209785881">
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1586394661337">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586209785881" />
-    <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1586233000096">
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586394661337" />
+    <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1586396650257">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1586233000096" />
+    <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1586396650257" />
     <state x="467" y="123" width="430" height="486" key="FileChooserDialogImpl/0.0.1366.737@0.0.1366.737" timestamp="1585771815969" />
     <state x="531" y="282" key="VCS.ChangelistChooser" timestamp="1586146452294">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="531" y="282" key="VCS.ChangelistChooser/0.0.1366.732@0.0.1366.732" timestamp="1586146452294" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1586209805520">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1586394716063">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1586209805520" />
-    <state x="362" y="193" key="com.intellij.ide.util.TipDialog" timestamp="1586219582570">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1586394716063" />
+    <state x="200" y="196" key="com.intellij.ide.util.TipDialog" timestamp="1586355455824">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="362" y="193" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586219582570" />
+    <state x="200" y="196" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586355455824" />
     <state x="347" y="160" key="run.anything.popup" timestamp="1586135309660">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
