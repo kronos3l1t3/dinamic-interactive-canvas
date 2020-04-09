@@ -22,12 +22,11 @@ var elements_properties = {
     img:null,
     img_ptox: 0,
     img_ptoy: 0,
-    shapes:{
-    },
     height:0,
     width:0,
     visibility:true,
-    event:{},
+    shapes:{},
+    events:{},
 }
 
 var shape = {
@@ -40,6 +39,45 @@ var shape_point = {
     y:null
 }
 
+var events_type = {
+    0:'click',
+    1:'change',
+    2:'mouseover',
+    3:'keypress',
+    4:'keydown',
+    5:'keyup'
+}
+
+var actions = {
+    0:{
+        name:'scale',
+        element_id:null,
+        _do: function(){
+
+        }
+    },
+    1:{
+        name:'move_to',
+        element_id:null,
+        _do: function () {
+
+        }
+    },
+    2:{
+        name:'toogle_show',
+        element_id:null,
+        _do: function () {
+
+        }
+    },
+    3:{
+        name:'toogle_show',
+        element_id:null,
+        _do: function () {
+
+        }
+    }
+}
 
 // ++++Crud de objetos JSON++++
 
@@ -50,8 +88,8 @@ function create_element(){
         var elements_variable = _g("#elements");
         var node = document.createElement("option");    // Create a <option> node
         var textnode = document.createTextNode(object_name);     // Create a text node
-        node.id = elements_variable.childElementCount;
         var object = clone(elements_properties);
+        node.id = elements_variable.childElementCount;
         object.name = object_name;
         elements_array[node.id] = object;
         node.appendChild(textnode);
@@ -71,7 +109,7 @@ function edit_element(){
         "<td><input id = 'name' name = 'name' type = 'text' value = '"+object.name+"' "+((object.name=='canvas')?'readonly':'')+"/></td></tr>" +
         "<tr><td><label for='img'>Imagen: </label></td>" +
         "<td><input id = 'img' name = 'img' type='file' value = '"+object.img+"' style='color: transparent' /></td></tr>" +
-        "<tr><td><label for='img_ptox'>Posicion (x;y): </label></td>" +
+        "<tr><td><label >Posicion (x;y): </label></td>" +
         "<td><input id = 'img_ptox' name = 'img_ptox' type='text' size='1%' value = '"+object.img_ptox+"' />" +
         "<input id = 'img_ptoy' name = 'img_ptoy' type='text' size='1%' value = '"+object.img_ptoy+"' />" +
         "<label for='check_point' >Marcar</label><input id = 'check_point' name = 'check_point' type = 'checkbox' /></td></tr>" +
@@ -84,11 +122,10 @@ function edit_element(){
         "<tr><td><label for='ptos'>Figuras: </label></td>" +
         "<td><input id = 'shapes' name = 'shapes' type='text' value = '"+JSON.stringify(object.shapes)+"' size='12%'/><input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir'/></td></tr>" +
         "<tr><td><label for='event'>Eventos: </label></td>" +
-        "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.event)+"' size='12%'/><input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
+        "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.events)+"' size='12%'/><input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
         "</table></div>";
     properties.innerHTML = html;
     save();
-    setTimeout(show_elment,25);
 };
 
 // Eliminar un elemento del arreglo
@@ -100,21 +137,37 @@ function delete_element(){
 };
 
 // Mostrar un elemento del arreglo
-function show_elment(){
+/*function show_elment(){
     var select = _g("#elements");
+
     if(elements_array[select.selectedIndex].img != null){
         var img = new Image();
-        console.log(elements_array[select.selectedIndex].img);
         img.src = elements_array[select.selectedIndex].img;
         canvas.drawImage(
             img,
             elements_array[select.selectedIndex].img_ptox,
-            elements_array[select.selectedIndex].img_ptox,
+            elements_array[select.selectedIndex].img_ptoy,
             parseInt(elements_array[select.selectedIndex].height),
             parseInt(elements_array[select.selectedIndex].width)
         );
-    }else{
-        //return error status 400 img not found
+    }
+};*/
+
+// Mostrar todos los elementos del arreglo
+async function show_elments(){
+    canvas.clearRect(0,0,lienzo.width, lienzo.height);
+    for (element in elements_array){
+        if(elements_array[element].img != null){
+            var img = new Image();
+            img.src = elements_array[element].img;
+            canvas.drawImage(
+                img,
+                elements_array[element].img_ptox,
+                elements_array[element].img_ptoy,
+                parseInt(elements_array[element].height),
+                parseInt(elements_array[element].width)
+            );
+        }
     }
 };
 
@@ -129,17 +182,17 @@ function save_props(id_name){
     var object = elements_array[select.selectedIndex];
     var sentence = "object."+id_name+" = "+
                     ((id_name=='img')?("'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'"):(_g('#'+id_name).value));
+    console.log(sentence);
     eval(sentence);
     if(select.selectedIndex == 0){
         lienzo.width = parseInt(object.height);
         lienzo.height = parseInt(object.width);
     }
     if(id_name='name') {
-        console.log(id_name);
         select.value = object.name;
     };
-    show_elment();
-    setTimeout(show_elment,25);
+    show_elments();
+    setTimeout(show_elments,25);
 };
 
 function save(){
@@ -166,8 +219,8 @@ lienzo.addEventListener('click', function (evt) {
     var check_point = _g("#check_point");
     var object = elements_array[select.selectedIndex];
     if(check_point.checked == true){
-        _g("#img_ptox").value = Math.round(mousex,2);
-        _g("#img_ptoy").value = Math.round(mousey,2);
+        _g("#img_ptox").value = mousex-object.width/2;
+        _g("#img_ptoy").value = mousey-object.height/2;
         save_props("img_ptox");
         save_props("img_ptoy");
     }
