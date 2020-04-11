@@ -137,17 +137,24 @@ function edit_element(){
 };
 
 // Eliminar un elemento del arreglo
-function delete_element(){
+function remove_element(){
     var select = _g("#elements");
+    var count = 0;
     if(select.value != 'canvas') {
         delete elements_array[select.selectedIndex];
         select.remove(select.selectedIndex);
+        var object_element = clone(elements_array);
+        for (element in object_element){
+            elements_array[count] = object_element[element];
+            count++;
+        }
+        delete elements_array[count];
     }else alert('No es posible eliminar el canvas');
     edit_element();
 };
 
 // Mostrar todos los elementos del arreglo
-async function show_elments(){
+function show_elments(){
     canvas.clearRect(0,0,lienzo.width, lienzo.height);
     for (element in elements_array){
         if(elements_array[element].img != null && elements_array[element].visibility == true){
@@ -206,35 +213,38 @@ function open_subproperties(object){
     var sub_properties = _g('#sub_properties');
     var select = _g('#elements');
 
-    sub_properties.innerHTML = "Figuras: <br>" +
+    sub_properties.innerHTML = "SubProperties: <br>" +
         "<div style='display: inline-block;'>" +
             "<input type='button' id='close_subproperties' name = 'close_subproperties' value='&times' title=\"Cerrar\"/>";
     switch (object) {
         case 'open_shapes':
-            sub_properties.innerHTML +=
+            sub_properties.innerHTML = sub_properties.innerHTML.replace('SubProperties','Figuras') +
                 "<input align='right' type='button' value='+' id='add_shape' name='add_shape' title=\"Adicionar Figura\" />" +
                 "<input align='right' type='button' value='-' id='remove_shape' name='remove_shape' title=\"Eliminar Figura\" />" +
-                "<select style='visibility: hidden' id='select_shape' name='select_shape'></select></div>" +
+                "<select style='visibility: hidden' id='select_subproperties' name='select_subproperties'></select></div>" +
                 "<table id='shape_table'></table>";
             shapes_select();
             show_shape();
+            shape_events();
             break;
         case 'open_events':
+            sub_properties.innerHTML = sub_properties.innerHTML.replace('SubProperties','Eventos') +
+                "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Figura\" />" +
+                "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Figura\" />" +
+                "<select style='visibility: hidden' id='select_subproperties' name='select_subproperties'></select></div>" +
+                "<table id='shape_table'></table>";
             break;
     }
-
     sub_properties.style = "visibility: visible; float: left; margin-top: 0.4%; width: 20%;";
     addE('#close_subproperties','click',close_subproperties);
-    addE('#select_shape','change',change_shape);
-    addE('#add_shape','click',add_shape);
-
 }
 
 // +++++++++++++ Funciones de las sub-propiedades de un objeto ++++++++++++++
 function close_subproperties() {
     _g('#sub_properties').style = "visibility: hidden;";
-    _g('#select_shape').style = "visibility: hidden;";
+    _g('#select_subproperties').style = "visibility: hidden;";
 }
+
 // ------------- Fin de las funciones de las sub-propiedades de un objeto -------------
 
 // Funcionalidades de figuras
@@ -242,13 +252,13 @@ function close_subproperties() {
 // +++++++++++++ Figuras ++++++++++++++
 
 // Actualizando el selector de figuras
-async function  shapes_select() {
-
+function  shapes_select() {
     var shapes = elements_array[_g('#elements').selectedIndex].shapes;
+    var select_shape = _g('#select_subproperties');
+    select_shape.innerHTML = "";
     if (
         elements_count(shapes) > 0
     ){
-        var select_shape = _g('#select_shape');
         select_shape.style = "visibility: visible;";
         for (shape in shapes){
             var node = document.createElement("option");    // Create a <option> node
@@ -257,15 +267,18 @@ async function  shapes_select() {
             node.appendChild(textnode);
             select_shape.appendChild(node);
         }
+        select_shape.selectedIndex = 0;
+    }else{
+        select_shape.style = "visibility: hidden;";
     }
 }
 
 // Mostrando figura seleccionada
-async function show_shape() {
+function show_shape() {
     let shapes = elements_array[_g('#elements').selectedIndex].shapes;
     if (elements_count(shapes)>0){
         let shape_table = _g('#shape_table');
-        let select_shape = _g('#select_shape');
+        let select_shape = _g('#select_subproperties');
         shape_table.innerHTML = "<tr><td>" +
             "<label for='shape_name'>Nombre: </label><input type='text' id='shape_name' value = '"+shapes[select_shape.selectedIndex].name+"'/>" +
             "</td></tr>" +
@@ -273,38 +286,53 @@ async function show_shape() {
             "<label for='Ptos'>Ptos: </label><input type='text' id='Ptos' size='1%' value='"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"'/> " +
             "Marcar: <input type='checkbox' id='mark_shape'>" +
             "</td></tr>";
+    }else{
+        shape_table.innerHTML ="";
     }
-
+    _g('#shapes').value = JSON.stringify(elements_array[_g('#elements').selectedIndex].shapes);
 }
 
+// Adicionar figura
 function add_shape() {
     var select = _g('#elements');
-    var select_shape = _g('#select_shape');
+    var select_shape = _g('#select_subproperties');
     var shape_name = prompt("Diga el nombre de la figura: ");
-    if(shape_name != null){
+    if(shape_name != null) {
+        var index = select_shape.childElementCount;
         var shape_object = clone(shape);
+        var option = document.createElement("option");
         shape_object.name = shape_name;
-        var table_shape = _g('#shape_table');
-        table_shape.innerHTML = "<tr><td>" +
-                                        "<label for='shape_name'>Nombre: </label><input type='text' id='shape_name' value = '"+shape_name+"'/>" +
-                               "</td></tr>" +
-                                "<tr><td>" +
-                                    "<label for='Ptos'>Ptos: </label><input type='text' id='Ptos' size='1%'/> Marcar: <input type='checkbox' id='mark_shape'>" +
-                                "</td></tr>";
-        select_shape.style="visibility: visible;";
-        var node = document.createElement("option");    // Create a <option> node
-        var textnode = document.createTextNode(shape_name);     // Create a text node
-        node.id = select_shape.childElementCount;
-        elements_array[select.selectedIndex].shapes[node.id] = shape_object;
-        node.appendChild(textnode);
-        select_shape.appendChild(node);
-        select_shape.selectedIndex = node.id;
+        option.text = shape_name;
+        select_shape.style = "visibility: visible;";
+        elements_array[select.selectedIndex].shapes[index] = shape_object;
+        select_shape.add(option,index);
+        select_shape.selectedIndex = index;
     }
+    show_shape();
 }
 
-function change_shape(){
+// Eliminar figura
+function remove_shape(){
     var select = _g('#elements');
-    var selected_shape = _g('#select_shape');
+    var selected_shape = _g('#select_subproperties');
+    delete elements_array[select.selectedIndex].shapes[selected_shape.selectedIndex];
+    var object_shapes = clone(elements_array[select.selectedIndex].shapes);
+    var count = 0;
+    for (shape in object_shapes){
+        elements_array[select.selectedIndex].shapes[count] = object_shapes[shape];
+        count++;
+    }
+    delete elements_array[select.selectedIndex].shapes[count];
+    shapes_select();
+    show_shape();
+}
+
+// Eventos de figuras
+
+function shape_events(){
+    addE('#remove_shape','click',remove_shape);
+    addE('#select_subproperties','change',show_shape);
+    addE('#add_shape','click',add_shape);
 }
 
 // -------------- Fin Figuras --------------
@@ -400,16 +428,16 @@ function clone(obj) {
 
 //Anadiendo eventos iniciales
 
-async function add_event_handler(){
+function add_event_handler(){
     addE('#create','click',create_element);
-    addE('#remove','click',delete_element);
+    addE('#remove','click',remove_element);
     addE('#elements','change',edit_element);
     addE('#generate','click',generate);
 }
 
 // Funcion inicial del sistema
 
-(async function(){
+(function(){
     'use strict';
     props.innerHTML = "<div>" +
         "<select id='elements'><option id = 0>canvas</option></select>" + // Modificar para salvas en cookies
@@ -425,7 +453,6 @@ async function add_event_handler(){
     elements_array [0] = object;
     add_event_handler();
     edit_element();
-
 })();
 
 // ++++++++++++++ Funcion para generar o exportar el codigo del canvas "coming sun" ++++++++++++++++++
