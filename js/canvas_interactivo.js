@@ -33,7 +33,7 @@ var elements_properties = {
 
 var shape = {
     name:null,
-    shape_points:{}
+    shape_points:null
 }
 //Figuras dentro del objeto
 var shape_point = {
@@ -368,7 +368,21 @@ lienzo.addEventListener('click', function (evt) {
         save_props("img_ptox");
         save_props("img_ptoy");
     }else if(_g("#check_shape") != null && _g("#check_shape").checked == true){
-        console.log('figura');
+        var select_shape = _g('#select_subproperties');
+        var ptos = elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points;
+        if(ptos == null){
+            let shape_points = clone(shape_point);
+            shape_points.x = Math.round(mousex,2);
+            shape_points.y = Math.round(mousey,2);
+            elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points={0:shape_points};
+        }else{
+            draw_line(ptos[elements_count(ptos)-1].x,ptos[elements_count(ptos)-1].y,mousex,mousey);
+            elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points[elements_count(ptos)]={
+                'x':Math.round(mousex,2),
+                'y':Math.round(mousey,2)
+            };
+        }
+
     }
 }, false);
 
