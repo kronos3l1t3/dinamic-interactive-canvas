@@ -232,7 +232,7 @@ function open_subproperties(object){
                 "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Figura\" />" +
                 "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Figura\" />" +
                 "<select style='visibility: hidden' id='select_subproperties' name='select_subproperties'></select></div>" +
-                "<table id='shape_table'></table>";
+                "<table id='event_table'></table>";
             break;
     }
     sub_properties.style = "visibility: visible; float: left; margin-top: 0.4%; width: 20%;";
@@ -284,7 +284,7 @@ function show_shape() {
             "</td></tr>" +
             "<tr><td>" +
             "<label for='Ptos'>Ptos: </label><input type='text' id='Ptos' size='1%' value='"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"'/> " +
-            "Marcar: <input type='checkbox' id='mark_shape'>" +
+            "Marcar: <input type='checkbox' id='check_shape'>" +
             "</td></tr>";
     }else{
         shape_table.innerHTML ="";
@@ -367,8 +367,8 @@ lienzo.addEventListener('click', function (evt) {
         _g("#img_ptoy").value = mousey-object.height/2;
         save_props("img_ptox");
         save_props("img_ptoy");
-    }else if(_g("#check_shape").checked == true){
-
+    }else if(_g("#check_shape") != null && _g("#check_shape").checked == true){
+        console.log('figura');
     }
 }, false);
 
