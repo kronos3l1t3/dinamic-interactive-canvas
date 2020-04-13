@@ -156,6 +156,7 @@ function remove_element(){
 // Mostrar todos los elementos del arreglo
 function show_elments(){
     canvas.clearRect(0,0,lienzo.width, lienzo.height);
+    lienzo.width = lienzo.width;
     for (element in elements_array){
         if(elements_array[element].img != null && elements_array[element].visibility == true){
             var img = new Image();
@@ -203,11 +204,30 @@ function save_props(id_name){
     setTimeout(show_elments,25);
 };
 
+// ++++++++++++++ Funciones de dibujo ++++++++++++++++
+
+// Pintar lineas
 function draw_line(ptox1,ptoy1,ptox2,ptoy2) {
+
     canvas.moveTo(ptox1, ptoy1);
     canvas.lineTo(ptox2, ptoy2);
     canvas.stroke();
+
 }
+
+// Pintar figuras
+function draw_shapes(points){
+    show_elments();
+    for (point in points){
+        if (point < elements_count(points)-1){
+            draw_line(points[point].x, points[point].y,points[parseInt(point)+1].x,points[parseInt(point)+1].y);
+        }else{
+            draw_line(points[point].x, points[point],points[0].x, points[0]);
+        }
+    }
+
+}
+// ----------------Fin de Funciones de dibujo -----------------
 
 function open_subproperties(object){
     var sub_properties = _g('#sub_properties');
@@ -235,7 +255,7 @@ function open_subproperties(object){
                 "<table id='event_table'></table>";
             break;
     }
-    sub_properties.style = "visibility: visible; float: left; margin-top: 0.4%; width: 20%;";
+    sub_properties.style = "visibility: visible; float: left; width: 20%;";
     addE('#close_subproperties','click',close_subproperties);
 }
 
@@ -243,6 +263,7 @@ function open_subproperties(object){
 function close_subproperties() {
     _g('#sub_properties').style = "visibility: hidden;";
     _g('#select_subproperties').style = "visibility: hidden;";
+    show_elments();
 }
 
 // ------------- Fin de las funciones de las sub-propiedades de un objeto -------------
@@ -286,6 +307,9 @@ function show_shape() {
             "<label for='Ptos'>Ptos: </label><input type='text' id='Ptos' size='1%' value='"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"'/> " +
             "Marcar: <input type='checkbox' id='check_shape'>" +
             "</td></tr>";
+        if(shapes[select_shape.selectedIndex].shape_points != null){
+            draw_shapes(shapes[select_shape.selectedIndex].shape_points);
+        }
     }else{
         shape_table.innerHTML ="";
     }
@@ -313,6 +337,7 @@ function add_shape() {
 
 // Eliminar figura
 function remove_shape(){
+
     var select = _g('#elements');
     var selected_shape = _g('#select_subproperties');
     delete elements_array[select.selectedIndex].shapes[selected_shape.selectedIndex];
@@ -324,8 +349,11 @@ function remove_shape(){
     }
     delete elements_array[select.selectedIndex].shapes[count];
     shapes_select();
+    show_elments();
     show_shape();
+
 }
+
 
 // Eventos de figuras
 
@@ -359,15 +387,15 @@ lienzo.addEventListener('mousemove', function (evt) {
     mousey = (evt.clientY - rect.top)*scaleY;
 }, false);
 
-lienzo.addEventListener('click', function (evt) {
+lienzo.addEventListener('mousedown', function (evt) {
     var select = _g("#elements");
     var object = elements_array[select.selectedIndex];
-    if(_g("#check_point").checked == true){
+    if(_g("#check_point").checked == true && evt.which == 1){
         _g("#img_ptox").value = mousex-object.width/2;
         _g("#img_ptoy").value = mousey-object.height/2;
         save_props("img_ptox");
         save_props("img_ptoy");
-    }else if(_g("#check_shape") != null && _g("#check_shape").checked == true){
+    }else if(_g("#check_shape").checked == true && evt.which == 1){
         var select_shape = _g('#select_subproperties');
         var ptos = elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points;
         if(ptos == null){
@@ -375,14 +403,17 @@ lienzo.addEventListener('click', function (evt) {
             shape_points.x = Math.round(mousex,2);
             shape_points.y = Math.round(mousey,2);
             elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points={0:shape_points};
+            draw_line(mousex-1,mousey,mousex+1,mousey);
+            draw_line(mousex,mousey-1,mousex,mousey+1);
         }else{
-            draw_line(ptos[elements_count(ptos)-1].x,ptos[elements_count(ptos)-1].y,mousex,mousey);
             elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points[elements_count(ptos)]={
                 'x':Math.round(mousex,2),
                 'y':Math.round(mousey,2)
             };
+            draw_shapes(ptos);
         }
-
+    }else if(_g("#check_shape").checked == true && evt.which == 2){
+        console.log('click de la rueda');
     }
 }, false);
 
@@ -471,6 +502,6 @@ function add_event_handler(){
 
 // ++++++++++++++ Funcion para generar o exportar el codigo del canvas "coming sun" ++++++++++++++++++
 function generate(){
-
+    alert('Comming sun boby');
 }
 // --------------Fin de exportacion del canvas -------------------

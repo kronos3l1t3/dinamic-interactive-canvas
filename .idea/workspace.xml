@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="-Crear elemento y autoenforcarse&#10;-Eliminar elemento y editar las propiedades del elemento anterior.">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/canvas_interactivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/canvas_interactivo.js" afterDir="false" />
     </list>
@@ -24,7 +23,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev_luis" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,6 +76,18 @@
       <workItem from="1586283229257" duration="8911000" />
       <workItem from="1586317650780" duration="3413000" />
       <workItem from="1586355449399" duration="25294000" />
+      <workItem from="1586448588778" duration="6141000" />
+      <workItem from="1586461611317" duration="5396000" />
+      <workItem from="1586472084072" duration="12016000" />
+      <workItem from="1586524378321" duration="2758000" />
+      <workItem from="1586532616740" duration="3800000" />
+      <workItem from="1586542438460" duration="452000" />
+      <workItem from="1586554801638" duration="2307000" />
+      <workItem from="1586563607005" duration="9705000" />
+      <workItem from="1586624669916" duration="3923000" />
+      <workItem from="1586638757489" duration="2150000" />
+      <workItem from="1586651869861" duration="3668000" />
+      <workItem from="1586740661689" duration="469000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1586146495900</created>
@@ -134,7 +145,49 @@
       <option name="project" value="LOCAL" />
       <updated>1586394661555</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="-division en 2 columnas para el trabajo con 2 div propiedades y subpropiedades.">
+      <created>1586451759442</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1586451759442</updated>
+    </task>
+    <task id="LOCAL-00010" summary="-Trabajando en agregar figuras &quot;CRUD&quot;">
+      <created>1586476127156</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1586476127156</updated>
+    </task>
+    <task id="LOCAL-00011" summary="-Insertar figura terminado">
+      <created>1586524575503</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1586524575504</updated>
+    </task>
+    <task id="LOCAL-00012" summary="-Eliminar figuras&#10;-Errores de eliminar figuras y elementos corregido">
+      <created>1586567320347</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1586567320347</updated>
+    </task>
+    <task id="LOCAL-00013" summary="-Eliminar figuras&#10;-Errores de eliminar figuras y elementos corregido">
+      <created>1586570442165</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1586570442165</updated>
+    </task>
+    <task id="LOCAL-00014" summary="-Dibujando figuras">
+      <created>1586576126430</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1586576126430</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,7 +198,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -159,13 +214,18 @@
     <MESSAGE value="-Crear elemento y autoenforcarse&#10;-Eliminar elemento y editar las propiedades del elemento anterior." />
     <MESSAGE value="-Correccion de error de posicionamiento de imagen" />
     <MESSAGE value="-correccion de error eliminacion de elementos" />
-    <option name="LAST_COMMIT_MESSAGE" value="-correccion de error eliminacion de elementos" />
+    <MESSAGE value="-division en 2 columnas para el trabajo con 2 div propiedades y subpropiedades." />
+    <MESSAGE value="-Trabajando en agregar figuras &quot;CRUD&quot;" />
+    <MESSAGE value="-Insertar figura terminado" />
+    <MESSAGE value="-Eliminar figuras&#10;-Errores de eliminar figuras y elementos corregido" />
+    <MESSAGE value="-Dibujando figuras" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Dibujando figuras" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1586394661337">
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1586576126226">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586394661337" />
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586576126226" />
     <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1586396650257">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
@@ -175,21 +235,21 @@
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="531" y="282" key="VCS.ChangelistChooser/0.0.1366.732@0.0.1366.732" timestamp="1586146452294" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1586394716063">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1586638844006">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1586394716063" />
-    <state x="200" y="196" key="com.intellij.ide.util.TipDialog" timestamp="1586355455824">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1586638844006" />
+    <state x="200" y="196" key="com.intellij.ide.util.TipDialog" timestamp="1586740660707">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="200" y="196" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586355455824" />
-    <state x="347" y="160" key="run.anything.popup" timestamp="1586135309660">
+    <state x="200" y="196" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586740660707" />
+    <state x="347" y="160" key="run.anything.popup" timestamp="1586575947937">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1586135309660" />
-    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1586044873193">
+    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1586575947937" />
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1586525289020">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1586044873193" />
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1586525289020" />
   </component>
 </project>
