@@ -54,32 +54,50 @@ var actions = {
     0:{
         name:'scale',
         element_id:null,
+        time:null,
         _do: function(){
-
+            console.log(this.element_id);
         }
     },
     1:{
         name:'move_to',
         element_id:null,
+        time:null,
         _do: function () {
-
+            console.log(this.element_id);
         }
     },
     2:{
         name:'toogle_show',
         element_id:null,
+        time:null,
         _do: function () {
-
+            console.log(this.element_id);
         }
     },
     3:{
         name:'text_show',
         element_id:null,
+        time:null,
         _do: function () {
-
+            console.log(this.element_id);
+        }
+    },
+    4:{
+        name:'rotate',
+        element_id:null,
+        time:null,
+        _do: function () {
+            console.log(this.element_id);
         }
     }
 }
+
+var event = {
+    type: null,
+    actions:{},
+}
+
 // -------- Fin Variables del Sistema ----------
 
 // ++++Crud de objetos JSON++++
@@ -272,6 +290,7 @@ function close_subproperties() {
 
 // +++++++++++++ Figuras ++++++++++++++
 
+
 // Actualizando el selector de figuras
 function  shapes_select() {
     var shapes = elements_array[_g('#elements').selectedIndex].shapes;
@@ -294,9 +313,11 @@ function  shapes_select() {
     }
 }
 
+// -------------- CRUD Figuras --------------
 // Mostrando figura seleccionada
 function show_shape() {
     let shapes = elements_array[_g('#elements').selectedIndex].shapes;
+    show_elments();
     if (elements_count(shapes)>0){
         let shape_table = _g('#shape_table');
         let select_shape = _g('#select_subproperties');
@@ -331,6 +352,7 @@ function add_shape() {
         elements_array[select.selectedIndex].shapes[index] = shape_object;
         select_shape.add(option,index);
         select_shape.selectedIndex = index;
+        console.log(elements_array[select.selectedIndex].shapes);
     }
     show_shape();
 }
@@ -353,7 +375,7 @@ function remove_shape(){
     show_shape();
 
 }
-
+// -------------- Fin CRUD Figuras --------------
 
 // Eventos de figuras
 
@@ -377,7 +399,7 @@ function save(){
     addE('#open_events','click',open_subproperties,'open_events');
 }
 
-// -------------- Fin CRUD Figuras --------------
+
 
 // +++++++++++++++ Eventos anclados al lienzo ++++++++++++++++
 
