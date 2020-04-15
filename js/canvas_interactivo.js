@@ -35,6 +35,7 @@ var shape = {
     name:null,
     shape_points:null
 }
+
 //Figuras dentro del objeto
 var shape_point = {
     x:null,
@@ -104,7 +105,7 @@ var event = {
 
 // Crear elemento imagenes
 function create_element(){
-    var object_name = window.prompt("Escriba un nombre para el nuevo elemento");
+    var object_name = window.prompt("Escriba un nombre para la imagen");
     if (object_name != null){
         var elements_variable = _g("#elements");
         var node = document.createElement("option");    // Create a <option> node
@@ -141,11 +142,11 @@ function edit_element(){
         "<tr><td><label for='visibility'>Visible: </label></td>" +
         "<td><input id = 'visibility' name = 'visibility' type='checkbox' "+((object.visibility == true)?'checked':'')+"/></td></tr>" +
         "<tr><td><label for='ptos'>Figuras: </label></td>" +
-        "<td><input id = 'shapes' name = 'shapes' type='text' value = '"+JSON.stringify(object.shapes)+"' size='12%'/>" +
-        "<input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir'/></td></tr>" +
+        "<td><textarea rows=\"4\" cols=\"27\" id = 'shapes' name = 'shapes' type='text' size='12%' readonly>"+JSON.stringify(object.shapes)+"</textarea></td></tr>" +
+        "<tr><td colspan='2' align='right'><input type='button' id = 'open_shapes' name = 'open_shapes' value='Abrir' style='margin-right: 30%;'/></td></tr>" +
         "<tr><td><label for='event'>Eventos: </label></td>" +
-        "<td><input id = 'events' name = 'events' type='text' value = '"+JSON.stringify(object.events)+"' size='12%'/>" +
-        "<input type='button' id = 'open_events' name = 'open_events' value='Abrir'/></td></tr>" +
+        "<td><textarea rows=\"4\" cols=\"27\" id = 'events' name = 'events' type='text' size='12%' readonly>"+JSON.stringify(object.events)+"</textarea></td></tr>" +
+        "<tr><td colspan='2' align='right'><input type='button' id = 'open_events' name = 'open_events' value='Abrir' style='margin-right: 30%;' /></td></tr>" +
         "</table></div>" +
         "<div style='visibility: hidden;' id='sub_properties'>" +
         "</div>";
@@ -233,15 +234,19 @@ function draw_line(ptox1,ptoy1,ptox2,ptoy2) {
 
 }
 
+
 // Pintar figuras
 function draw_shapes(points){
+
     show_elments();
     for (point in points){
         if (point < elements_count(points)-1){
             draw_line(points[point].x, points[point].y,points[parseInt(point)+1].x,points[parseInt(point)+1].y);
-        }else{
-            draw_line(points[point].x, points[point],points[0].x, points[0]);
         }
+    }
+
+    if(_g('#check_shape').checked == false){
+        draw_line(points[elements_count(points)-1].x, points[elements_count(points)-1].y,points[0].x, points[0].y);
     }
 
 }
@@ -325,12 +330,13 @@ function show_shape() {
             "<label for='shape_name'>Nombre: </label><input type='text' id='shape_name' value = '"+shapes[select_shape.selectedIndex].name+"'/>" +
             "</td></tr>" +
             "<tr><td>" +
-            "<label for='Ptos'>Ptos: </label><input type='text' id='Ptos' size='1%' value='"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"'/> " +
+            "<label for='Ptos'>Ptos: </label><textarea rows=\"4\" cols=\"50\" id='Ptos' size='1%' readonly>"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"</textarea> " +
             "Marcar: <input type='checkbox' id='check_shape'>" +
             "</td></tr>";
         if(shapes[select_shape.selectedIndex].shape_points != null){
             draw_shapes(shapes[select_shape.selectedIndex].shape_points);
         }
+        addE('#check_shape','click',shape_check);
     }else{
         shape_table.innerHTML ="";
     }
@@ -352,9 +358,14 @@ function add_shape() {
         elements_array[select.selectedIndex].shapes[index] = shape_object;
         select_shape.add(option,index);
         select_shape.selectedIndex = index;
-        console.log(elements_array[select.selectedIndex].shapes);
     }
     show_shape();
+}
+
+function shape_check(){
+    let shapes = elements_array[_g('#elements').selectedIndex].shapes;
+    let select_shape = _g('#select_subproperties');
+    draw_shapes(shapes[select_shape.selectedIndex].shape_points);
 }
 
 // Eliminar figura
@@ -432,10 +443,14 @@ lienzo.addEventListener('mousedown', function (evt) {
                 'x':Math.round(mousex,2),
                 'y':Math.round(mousey,2)
             };
+            _g('#Ptos').value = JSON.stringify(ptos);
             draw_shapes(ptos);
         }
     }else if(_g("#check_shape").checked == true && evt.which == 2){
-        console.log('click de la rueda');
+        var shapes = elements_array[_g('#elements').selectedIndex].shapes[_g('#select_subproperties').selectedIndex];
+        delete shapes.shape_points[elements_count(shapes.shape_points)-1];
+        _g('#Ptos').value = JSON.stringify(shapes.shape_points);
+        draw_shapes(shapes.shape_points);
     }
 }, false);
 
