@@ -69,7 +69,7 @@ var actions = {
         }
     },
     2:{
-        name:'toogle_show',
+        name:'toogle',
         element_id:null,
         time:null,
         _do: function () {
@@ -112,7 +112,7 @@ var actions = {
 
 var event = {
     type: null,
-    id_shape: null,
+    shape: null,
     actions:{},
 }
 
@@ -347,13 +347,16 @@ function show_event(){
     if (elements_count(events)>0){
         let events_table = _g('#events_table');
         let select_events = _g('#select_subproperties');
+        let shapes = elements_array[_g('#elements').selectedIndex].shapes;
+        let option = document.createElement("option");
+
         events_table.innerHTML =
             "<tr><td>" +
-                "<label for='event_type'>Tipo: </label><select id='event_type'>" +
+                "<label for='type'>Tipo: </label><select id='type'>" +
                     "<option id='"+select_events.selectedIndex+"'>"+events[select_events.selectedIndex].type+"</option>" +
             "</select></td></tr>" +
             "<tr><td>" +
-                "<label for='id_shape'>Figura: </label><select id='id_shape'></select>" +
+                "<label for='shape'>Figura: </label><select id='shape'></select>" +
             "</td></tr>" +
             "<tr><td>" +
                 "<label for='actions'>Acciones: </label><textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly></textarea> " +
@@ -363,16 +366,24 @@ function show_event(){
             let option = document.createElement("option");
             if (events[select_events.selectedIndex].type != events_type[event]){
                 option.text = events_type[event];
-                _g('#event_type').add(option, events_type[event]);
+                _g('#type').add(option, events_type[event]);
             }
         }
-        var shapes = elements_array[_g('#elements').selectedIndex].shapes;
-        for (shape in shapes){
-            let option = document.createElement("option");
-            option.text = shapes[shape].name;
-            _g('#id_shape').add(option, shape);
-        }
 
+        option.text = shapes[events[select_events.selectedIndex].shape].name;
+        option.value = events[select_events.selectedIndex].shape;
+        _g('#shape').add(option, events[select_events.selectedIndex].shape);
+
+        for (shape in shapes){
+            option = document.createElement("option");
+            if(events[select_events.selectedIndex].shape != shape){
+                option.text = shapes[shape].name;
+                option.value = shape;
+                _g('#shape').add(option, shape);
+            }
+        }
+        addE('#type', 'change', save_events,'type');
+        addE('#shape', 'change', save_events,'shape');
     }else{
         events_table.innerHTML ="";
     }
@@ -405,7 +416,7 @@ function event_select(){
             var textnode = document.createTextNode(event);     // Create a text node
             node.id = event;
             node.appendChild(textnode);
-            select_shape.appendChild(node);
+            select_event.appendChild(node);
         }
         select_event.selectedIndex = 0;
     }else{
@@ -414,6 +425,15 @@ function event_select(){
 }
 
 // ----------------- Fin de CRUD de eventos ------------------
+
+function save_events(id){
+
+    let object = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex];
+    let sentencia = "object."+id+" = '"+_g('#'+id).value+"'";
+    console.log(_g('#'+id).value);
+    eval(sentencia);
+
+}
 
 // Eventos de eventos
 
