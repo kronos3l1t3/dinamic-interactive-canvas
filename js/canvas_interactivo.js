@@ -91,11 +91,28 @@ var actions = {
         _do: function () {
             console.log(this.element_id);
         }
+    },
+    5:{
+        name:'on',
+        element_id:null,
+        time:null,
+        _do: function () {
+            console.log(this.element_id);
+        }
+    },
+    6:{
+        name:'off',
+        element_id:null,
+        time:null,
+        _do: function () {
+            console.log(this.element_id);
+        }
     }
 }
 
 var event = {
     type: null,
+    id_shape: null,
     actions:{},
 }
 
@@ -211,14 +228,18 @@ function save_props(id_name){
             var sentence = "object."+id_name+" = "+_g("#"+id_name).value;
             break;
     }
+
     eval(sentence);
+
     if(select.selectedIndex == 0){
         lienzo.width = parseInt(object.height);
         lienzo.height = parseInt(object.width);
     }
+
     if(id_name='name') {
         select.value = object.name;
     };
+
     show_elments();
     setTimeout(show_elments,25);
 };
@@ -275,7 +296,10 @@ function open_subproperties(object){
                 "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Figura\" />" +
                 "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Figura\" />" +
                 "<select style='visibility: hidden' id='select_subproperties' name='select_subproperties'></select></div>" +
-                "<table id='event_table'></table>";
+                "<table id='events_table'></table>";
+            event_select();
+            show_event();
+            event_events();
             break;
     }
     sub_properties.style = "visibility: visible; float: left; width: 20%;";
@@ -290,6 +314,118 @@ function close_subproperties() {
 }
 
 // ------------- Fin de las funciones de las sub-propiedades de un objeto -------------
+
+// ++++++++++++++ Funciones de Eventos ++++++++++++++++++++++++
+
+// ++++++++++++++ CRUD eventos +++++++++++++++++
+
+// Adicionar eventos
+
+function add_event() {
+    var select = _g('#elements');
+    var select_events = _g('#select_subproperties');
+    if (select_events != null) {
+        var index = select_events.childElementCount;
+        var events_object = clone(event);
+        events_object.shape = 0;
+        events_object.type = 'click';
+        var option = document.createElement("option");
+        option.text = index;
+        select_events.style = "visibility: visible;";
+        elements_array[select.selectedIndex].events[index] = events_object;
+        select_events.add(option, index);
+        select_events.selectedIndex = index;
+    }
+    show_event();
+}
+
+// Adicionar eventos
+
+function show_event(){
+    let events = elements_array[_g('#elements').selectedIndex].events;
+    show_elments();
+    if (elements_count(events)>0){
+        let events_table = _g('#events_table');
+        let select_events = _g('#select_subproperties');
+        events_table.innerHTML =
+            "<tr><td>" +
+                "<label for='event_type'>Tipo: </label><select id='event_type'>" +
+                    "<option id='"+select_events.selectedIndex+"'>"+events[select_events.selectedIndex].type+"</option>" +
+            "</select></td></tr>" +
+            "<tr><td>" +
+                "<label for='id_shape'>Figura: </label><select id='id_shape'></select>" +
+            "</td></tr>" +
+            "<tr><td>" +
+                "<label for='actions'>Acciones: </label><textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly></textarea> " +
+            "</td></tr>";
+        _g('#events').value = JSON.stringify(elements_array[_g('#elements').selectedIndex].events);
+        for (event in events_type){
+            let option = document.createElement("option");
+            if (events[select_events.selectedIndex].type != events_type[event]){
+                option.text = events_type[event];
+                _g('#event_type').add(option, events_type[event]);
+            }
+        }
+        var shapes = elements_array[_g('#elements').selectedIndex].shapes;
+        for (shape in shapes){
+            let option = document.createElement("option");
+            option.text = shapes[shape].name;
+            _g('#id_shape').add(option, shape);
+        }
+
+    }else{
+        events_table.innerHTML ="";
+    }
+}
+
+// Adicionar acciones
+
+function show_actions(){
+    console.log('1');
+}
+
+// Eliminar eventos
+
+function remove_event(){
+
+}
+
+// Configurar el select de eventos
+
+function event_select(){
+    var events = elements_array[_g('#elements').selectedIndex].events;
+    var select_event = _g('#select_subproperties');
+    select_event.innerHTML = "";
+    if (
+        elements_count(events) > 0
+    ){
+        select_event.style = "visibility: visible;";
+        for (event in events){
+            var node = document.createElement("option");    // Create a <option> node
+            var textnode = document.createTextNode(event);     // Create a text node
+            node.id = event;
+            node.appendChild(textnode);
+            select_shape.appendChild(node);
+        }
+        select_event.selectedIndex = 0;
+    }else{
+        select_event.style = "visibility: hidden;";
+    }
+}
+
+// ----------------- Fin de CRUD de eventos ------------------
+
+// Eventos de eventos
+
+function event_events() {
+
+    addE('#add_event', 'click', add_event);
+    addE('#remove_event', 'click', remove_event);
+    addE('#select_subproperties', 'change', show_event);
+
+}
+
+// -------------- Fin de Funciones de Eventos -----------------
 
 // Funcionalidades de figuras
 
@@ -337,10 +473,10 @@ function show_shape() {
             draw_shapes(shapes[select_shape.selectedIndex].shape_points);
         }
         addE('#check_shape','click',shape_check);
+        _g('#shapes').value = JSON.stringify(elements_array[_g('#elements').selectedIndex].shapes);
     }else{
         shape_table.innerHTML ="";
     }
-    _g('#shapes').value = JSON.stringify(elements_array[_g('#elements').selectedIndex].shapes);
 }
 
 // Adicionar figura
@@ -409,8 +545,6 @@ function save(){
     addE('#open_shapes','click',open_subproperties,'open_shapes');
     addE('#open_events','click',open_subproperties,'open_events');
 }
-
-
 
 // +++++++++++++++ Eventos anclados al lienzo ++++++++++++++++
 
@@ -487,6 +621,7 @@ function _g(object){
 };
 
 //Adicionar un evento a un boton
+
 function addE(id, event, fun, params=null){
     _g(id).addEventListener(event,function(){
         if(params != null){
