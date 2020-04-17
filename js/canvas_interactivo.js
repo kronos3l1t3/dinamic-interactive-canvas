@@ -4,7 +4,7 @@ var lienzo = _g('#canvas');
 var canvas = lienzo.getContext('2d');
 
 lienzo.width = 700;
-lienzo.height = 420;
+lienzo.height = 300;
 lienzo.tabIndex = 0;
 lienzo.style = "border: 1px solid black";
 var time = null;
@@ -296,7 +296,8 @@ function open_subproperties(object){
                 "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Figura\" />" +
                 "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Figura\" />" +
                 "<select style='visibility: hidden' id='select_subproperties' name='select_subproperties'></select></div>" +
-                "<table id='events_table'></table>";
+                "<table id='events_table'></table>" +
+                "<table id='accion_table'></table>";
             event_select();
             show_event();
             event_events();
@@ -322,14 +323,14 @@ function close_subproperties() {
 // Adicionar eventos
 
 function add_event() {
-    var select = _g('#elements');
-    var select_events = _g('#select_subproperties');
+    let select = _g('#elements');
+    let select_events = _g('#select_subproperties');
     if (select_events != null) {
-        var index = select_events.childElementCount;
+        let index = select_events.childElementCount;
         var events_object = clone(event);
         events_object.shape = 0;
         events_object.type = 'click';
-        var option = document.createElement("option");
+        let option = document.createElement("option");
         option.text = index;
         select_events.style = "visibility: visible;";
         elements_array[select.selectedIndex].events[index] = events_object;
@@ -349,6 +350,7 @@ function show_event(){
         let select_events = _g('#select_subproperties');
         let shapes = elements_array[_g('#elements').selectedIndex].shapes;
         let option = document.createElement("option");
+        let accion_table = _g('#accion_table');
 
         events_table.innerHTML =
             "<tr><td>" +
@@ -357,16 +359,22 @@ function show_event(){
             "</select></td></tr>" +
             "<tr><td>" +
                 "<label for='shape'>Figura: </label><select id='shape'></select>" +
-            "</td></tr>" +
+            "</td></tr><br>" +
             "<tr><td>" +
-                "<label for='actions'>Acciones: </label><textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly></textarea> " +
+                "<label for='actions'>Acciones: </label>" +
+                    "<input align='right' type='button' value='+' id='add_action' name='add_action' title=\"Adicionar Accion\" />" +
+                    "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Accion\" />" +
+                    "<select style='visibility: hidden' id='select_accion' name='select_accion'></select></div>" +
+                    "<textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly>"+
+                        JSON.stringify(events[select_events.selectedIndex].actions)+
+                "</textarea> " +
             "</td></tr>";
         _g('#events').value = JSON.stringify(elements_array[_g('#elements').selectedIndex].events);
-        for (event in events_type){
+        for (event_id in events_type){
             let option = document.createElement("option");
-            if (events[select_events.selectedIndex].type != events_type[event]){
-                option.text = events_type[event];
-                _g('#type').add(option, events_type[event]);
+            if (events[select_events.selectedIndex].type != events_type[event_id]){
+                option.text = events_type[event_id];
+                _g('#type').add(option, events_type[event_id]);
             }
         }
 
@@ -374,12 +382,12 @@ function show_event(){
         option.value = events[select_events.selectedIndex].shape;
         _g('#shape').add(option, events[select_events.selectedIndex].shape);
 
-        for (shape in shapes){
+        for (shape_id in shapes){
             option = document.createElement("option");
-            if(events[select_events.selectedIndex].shape != shape){
-                option.text = shapes[shape].name;
-                option.value = shape;
-                _g('#shape').add(option, shape);
+            if(events[select_events.selectedIndex].shape != shape_id){
+                option.text = shapes[shape_id].name;
+                option.value = shape_id;
+                _g('#shape').add(option, shape_id);
             }
         }
         addE('#type', 'change', save_events,'type');
@@ -430,7 +438,6 @@ function save_events(id){
 
     let object = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex];
     let sentencia = "object."+id+" = '"+_g('#'+id).value+"'";
-    console.log(_g('#'+id).value);
     eval(sentencia);
 
 }
@@ -461,10 +468,10 @@ function  shapes_select() {
         elements_count(shapes) > 0
     ){
         select_shape.style = "visibility: visible;";
-        for (shape in shapes){
+        for (shape_id in shapes){
             var node = document.createElement("option");    // Create a <option> node
-            var textnode = document.createTextNode(shapes[shape].name);     // Create a text node
-            node.id = shape;
+            var textnode = document.createTextNode(shapes[shape_id].name);     // Create a text node
+            node.id = shape_id;
             node.appendChild(textnode);
             select_shape.appendChild(node);
         }
@@ -532,8 +539,8 @@ function remove_shape(){
     delete elements_array[select.selectedIndex].shapes[selected_shape.selectedIndex];
     var object_shapes = clone(elements_array[select.selectedIndex].shapes);
     var count = 0;
-    for (shape in object_shapes){
-        elements_array[select.selectedIndex].shapes[count] = object_shapes[shape];
+    for (shape_id in object_shapes){
+        elements_array[select.selectedIndex].shapes[count] = object_shapes[shape_id];
         count++;
     }
     delete elements_array[select.selectedIndex].shapes[count];
@@ -686,7 +693,7 @@ function add_event_handler(){
     let object = clone(elements_properties);
     object.name = 'canvas';
     object.height = 700;
-    object.width = 420;
+    object.width = 300;
     elements_array [0] = object;
     add_event_handler();
     edit_element();
