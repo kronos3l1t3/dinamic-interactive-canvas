@@ -318,7 +318,7 @@ function close_subproperties() {
 
 // ++++++++++++++ Funciones de Eventos ++++++++++++++++++++++++
 
-// ++++++++++++++ CRUD eventos +++++++++++++++++
+// ++++++++++++++++++ CRUD eventos +++++++++++++++++
 
 // Adicionar eventos
 
@@ -330,6 +330,7 @@ function add_event() {
         var events_object = clone(event);
         events_object.shape = 0;
         events_object.type = 'click';
+        console.log(events_object);
         let option = document.createElement("option");
         option.text = index;
         select_events.style = "visibility: visible;";
@@ -419,10 +420,10 @@ function event_select(){
         elements_count(events) > 0
     ){
         select_event.style = "visibility: visible;";
-        for (event in events){
+        for (event_id in events){
             var node = document.createElement("option");    // Create a <option> node
-            var textnode = document.createTextNode(event);     // Create a text node
-            node.id = event;
+            var textnode = document.createTextNode(event_id);     // Create a text node
+            node.id = event_id;
             node.appendChild(textnode);
             select_event.appendChild(node);
         }
