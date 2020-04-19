@@ -696,6 +696,14 @@ function clone(obj) {
     return copy;
 };
 
+// ++++++++++++++++++ Salvas +++++++++++++++++++
+
+function delete_save(){
+    localStorage.removeItem('elements_array');
+}
+
+// -----------------Fin de Salvas --------------
+
 //Anadiendo eventos iniciales
 
 function add_event_handler(){
@@ -703,6 +711,8 @@ function add_event_handler(){
     addE('#remove','click',remove_element);
     addE('#elements','change',edit_element);
     addE('#generate','click',generate);
+    addE('#delete_save','click',delete_save);
+
 }
 
 // Funcion inicial del sistema
@@ -713,7 +723,8 @@ function add_event_handler(){
         "<select id='elements'><option id = 0>canvas</option></select>" + // Modificar para salvas en cookies
         "<input value='+' id = 'create' type='button' title=\"Crear imagen\" />" +
         "<input value='-' id = 'remove' type='button' title=\"Eliminar imagen\" />" +
-        "<input value='Generar codigo' id = 'generate' type='button'/></div><br>" +
+        "<input value='Generar codigo' id = 'generate' type='button'/>" +
+        "<input value='Eliminar salva' id = 'delete_save' type='button'/></div><br>" +
         "<div id = 'properties'></div>";
     add_event_handler();
     edit_element();
