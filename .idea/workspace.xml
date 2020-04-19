@@ -15,6 +15,9 @@
       <executable />
     </execution>
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="canvas-interactivo" />
+  </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
@@ -41,7 +44,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="/var/www/html/cubanacan/portal/application/modules/circuito/views/_partials/filter.twig" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -88,6 +91,16 @@
       <workItem from="1586638757489" duration="2150000" />
       <workItem from="1586651869861" duration="3668000" />
       <workItem from="1586740661689" duration="469000" />
+      <workItem from="1586825788030" duration="1198000" />
+      <workItem from="1586833999515" duration="6118000" />
+      <workItem from="1586962821683" duration="606000" />
+      <workItem from="1586976367862" duration="3959000" />
+      <workItem from="1587062805949" duration="3770000" />
+      <workItem from="1587077679720" duration="5001000" />
+      <workItem from="1587134874676" duration="8175000" />
+      <workItem from="1587154343623" duration="7774000" />
+      <workItem from="1587227055805" duration="3827000" />
+      <workItem from="1587253814278" duration="1204000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1586146495900</created>
@@ -187,7 +200,35 @@
       <option name="project" value="LOCAL" />
       <updated>1586576126430</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="-Empezando el CRUD de eventos">
+      <created>1587136313163</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1587136313163</updated>
+    </task>
+    <task id="LOCAL-00016" summary="-Salva de campos en tiempo real eventos">
+      <created>1587149079556</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1587149079556</updated>
+    </task>
+    <task id="LOCAL-00017" summary="-Errores de figuras y eventos corregido">
+      <created>1587164012388</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1587164012388</updated>
+    </task>
+    <task id="LOCAL-00018" summary="-Errores eventos corregido (crear nuevo evento)">
+      <created>1587171240766</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1587171240766</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,13 +260,17 @@
     <MESSAGE value="-Insertar figura terminado" />
     <MESSAGE value="-Eliminar figuras&#10;-Errores de eliminar figuras y elementos corregido" />
     <MESSAGE value="-Dibujando figuras" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Dibujando figuras" />
+    <MESSAGE value="-Empezando el CRUD de eventos" />
+    <MESSAGE value="-Salva de campos en tiempo real eventos" />
+    <MESSAGE value="-Errores de figuras y eventos corregido" />
+    <MESSAGE value="-Errores eventos corregido (crear nuevo evento)" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Errores eventos corregido (crear nuevo evento)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1586576126226">
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1587171240452">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1586576126226" />
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1587171240452" />
     <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1586396650257">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
@@ -235,18 +280,18 @@
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="531" y="282" key="VCS.ChangelistChooser/0.0.1366.732@0.0.1366.732" timestamp="1586146452294" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1586638844006">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1587149095023">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1586638844006" />
-    <state x="200" y="196" key="com.intellij.ide.util.TipDialog" timestamp="1586740660707">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1587149095023" />
+    <state x="391" y="151" key="com.intellij.ide.util.TipDialog" timestamp="1587263708661">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="200" y="196" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1586740660707" />
-    <state x="347" y="160" key="run.anything.popup" timestamp="1586575947937">
+    <state x="391" y="151" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1587263708661" />
+    <state x="347" y="160" key="run.anything.popup" timestamp="1587154760487">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1586575947937" />
+    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1587154760487" />
     <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1586525289020">
       <screen x="0" y="0" width="1366" height="732" />
     </state>

@@ -15,8 +15,6 @@ scaleX = lienzo.width / rect.width;
 scaleY = lienzo.height / rect.height;
 
 var props = _g('#edit_canvas');
-//Arreglo de elementos
-var elements_array = {};
 
 //Objeto y propiedades de los elementos
 var elements_properties = {
@@ -29,6 +27,19 @@ var elements_properties = {
     visibility:true,
     shapes:{},
     events:{},
+}
+
+//Arreglo de elementos
+if (window.localStorage.getItem('elements_array') != null){
+    var elements_array = JSON.parse(localStorage.elements_array);
+}else{
+    var elements_array = {};
+    let object = clone(elements_properties);
+    object.name = 'canvas';
+    object.height = 700;
+    object.width = 300;
+    elements_array [0] = object;
+    localStorage.setItem('elements_array',JSON.stringify(clone(elements_array)));
 }
 
 var shape = {
@@ -44,18 +55,22 @@ var shape_point = {
 
 var events_type = {
     0:'click',
-    1:'change',
+    1:'dbclick',
     2:'mouseover',
-    3:'keypress',
-    4:'keydown',
-    5:'keyup'
+    3:'mousedown',
+    4:'mouseup',
+    5:'keypress',
+    6:'keydown',
+    7:'keyup'
 }
 
 var actions = {
     0:{
         name:'scale',
         element_id:null,
-        time:null,
+        time:1,
+        raize:1,
+        interval:1,
         _do: function(){
             console.log(this.element_id);
         }
@@ -63,7 +78,9 @@ var actions = {
     1:{
         name:'move_to',
         element_id:null,
-        time:null,
+        time:10,
+        ptos:{},
+        speed:1,
         _do: function () {
             console.log(this.element_id);
         }
@@ -72,6 +89,7 @@ var actions = {
         name:'toogle',
         element_id:null,
         time:null,
+        efect: null,
         _do: function () {
             console.log(this.element_id);
         }
@@ -240,6 +258,7 @@ function save_props(id_name){
         select.value = object.name;
     };
 
+    window.localStorage.setItem('elements_array', JSON.stringify(clone(elements_array)));
     show_elments();
     setTimeout(show_elments,25);
 };
@@ -290,7 +309,7 @@ function open_subproperties(object){
             shapes_select();
             show_shape();
             shape_events();
-            break;
+        break;
         case 'open_events':
             sub_properties.innerHTML = sub_properties.innerHTML.replace('SubProperties','Eventos') +
                 "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Figura\" />" +
@@ -301,7 +320,7 @@ function open_subproperties(object){
             event_select();
             show_event();
             event_events();
-            break;
+        break;
     }
     sub_properties.style = "visibility: visible; float: left; width: 20%;";
     addE('#close_subproperties','click',close_subproperties);
@@ -338,6 +357,7 @@ function add_event() {
         select_events.add(option, index);
         select_events.selectedIndex = index;
     }
+    window.localStorage.setItem('elements_array', JSON.stringify(clone(elements_array)));
     show_event();
 }
 
@@ -440,7 +460,7 @@ function save_events(id){
     let object = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex];
     let sentencia = "object."+id+" = '"+_g('#'+id).value+"'";
     eval(sentencia);
-
+    window.localStorage.setItem('elements_array', JSON.stringify(clone(elements_array)));
 }
 
 // Eventos de eventos
@@ -523,6 +543,7 @@ function add_shape() {
         select_shape.add(option,index);
         select_shape.selectedIndex = index;
     }
+    window.localStorage.setItem('elements_array', JSON.stringify(clone(elements_array)));
     show_shape();
 }
 
@@ -574,7 +595,9 @@ function save(){
     addE('#open_events','click',open_subproperties,'open_events');
 }
 
-// +++++++++++++++ Eventos anclados al lienzo ++++++++++++++++
+// ++++++++++++++++++++++ Eventos anclados al lienzo ++++++++++++++++++++
+
+// ++++++++++++++++++++++++++ TU CODIGO VA AQUI +++++++++++++++++++++++++
 
 lienzo.addEventListener('mousemove', function (evt) {
     rect = lienzo.getBoundingClientRect();
@@ -621,6 +644,8 @@ window.addEventListener("resize", function(){
     scaleX = lienzo.width / rect.width;
     scaleY = lienzo.height / rect.height;
 }, false);
+
+// ------------------------ FIN DE TU CODIGO -----------------------
 
 // ----------------- FIN Eventos anclados al lienzo -----------------
 
@@ -690,12 +715,6 @@ function add_event_handler(){
         "<input value='-' id = 'remove' type='button' title=\"Eliminar imagen\" />" +
         "<input value='Generar codigo' id = 'generate' type='button'/></div><br>" +
         "<div id = 'properties'></div>";
-
-    let object = clone(elements_properties);
-    object.name = 'canvas';
-    object.height = 700;
-    object.width = 300;
-    elements_array [0] = object;
     add_event_handler();
     edit_element();
 })();
