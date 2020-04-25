@@ -142,12 +142,12 @@ var event = {
 // Crear elemento imagenes
 
 function create_element(){
-    var object_name = window.prompt("Escriba un nombre para la imagen");
+    let object_name = window.prompt("Escriba un nombre para la imagen");
     if (object_name != null){
-        var elements_variable = _g("#elements");
-        var node = document.createElement("option");    // Create a <option> node
-        var textnode = document.createTextNode(object_name);     // Create a text node
-        var object = clone(elements_properties);
+        let elements_variable = _g("#elements");
+        let node = document.createElement("option");    // Create a <option> node
+        let textnode = document.createTextNode(object_name);     // Create a text node
+        let object = clone(elements_properties);
         node.id = elements_variable.childElementCount;
         object.name = object_name;
         elements_array[node.id] = object;
@@ -194,12 +194,12 @@ function edit_element(){
 
 // Eliminar un elemento del arreglo
 function remove_element(){
-    var select = _g("#elements");
-    var count = 0;
+    let select = _g("#elements");
+    let count = 0;
     if(select.value != 'canvas') {
         delete elements_array[select.selectedIndex];
         select.remove(select.selectedIndex);
-        var object_element = clone(elements_array);
+        let object_element = clone(elements_array);
         for (element in object_element){
             elements_array[count] = object_element[element];
             count++;
@@ -215,7 +215,7 @@ function show_elments(){
     lienzo.width = lienzo.width;
     for (element in elements_array){
         if(elements_array[element].img != null && elements_array[element].visibility == true){
-            var img = new Image();
+            let img = new Image();
             img.src = elements_array[element].img;
             canvas.drawImage(
                 img,
@@ -235,17 +235,18 @@ function show_elments(){
 // Salvar configuracion de los elementos
 
 function save_props(id_name){
-    var select = _g("#elements");
-    var object = elements_array[select.selectedIndex];
+    let select = _g("#elements");
+    let object = elements_array[select.selectedIndex];
+    let sentence = null;
     switch (id_name) {
         case 'img':
-            var sentence = "object."+id_name+" = "+"'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'";
+            sentence = "object."+id_name+" = "+"'img/object/"+_g("#"+id_name).value.replace("C:\\fakepath\\","")+"'";
             break;
         case 'visibility':
-            var sentence = "object."+id_name+" = "+_g("#"+id_name).checked;
+            sentence = "object."+id_name+" = "+_g("#"+id_name).checked;
             break;
         default:
-            var sentence = "object."+id_name+" = "+_g("#"+id_name).value;
+            sentence = "object."+id_name+" = "+_g("#"+id_name).value;
             break;
     }
 
@@ -295,8 +296,8 @@ function draw_shapes(points){
 
 function open_subproperties(object){
 
-    var sub_properties = _g('#sub_properties');
-    var select = _g('#elements');
+    let sub_properties = _g('#sub_properties');
+    let select = _g('#elements');
 
     sub_properties.innerHTML = "SubProperties: <br>" +
         "<div style='display: inline-block;'>" +
@@ -314,8 +315,8 @@ function open_subproperties(object){
         break;
         case 'open_events':
             sub_properties.innerHTML = sub_properties.innerHTML.replace('SubProperties','Eventos') +
-                "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Figura\" />" +
-                "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Figura\" />" +
+                "<input align='right' type='button' value='+' id='add_event' name='add_event' title=\"Adicionar Evento\" />" +
+                "<input align='right' type='button' value='-' id='remove_event' name='remove_event' title=\"Eliminar Evento\" />" +
                 "<select style='visibility: hidden' id='select_subproperties' name='select_subproperties'></select></div>" +
                 "<table id='events_table'></table>" +
                 "<table id='actions_table'></table>";
@@ -352,7 +353,7 @@ function add_event() {
     let select_events = _g('#select_subproperties');
     if (select_events != null) {
         let index = select_events.childElementCount;
-        var events_object = clone(event);
+        let events_object = clone(event);
         events_object.shape = 0;
         events_object.type = 'click';
         let option = document.createElement("option");
@@ -378,7 +379,6 @@ function show_event(){
         let shapes = elements_array[_g('#elements').selectedIndex].shapes;
         let option = document.createElement("option");
         let accion_table = _g('#accion_table');
-
         events_table.innerHTML =
             "<tr><td>" +
                 "<label for='type'>Tipo: </label><select id='type'>" +
@@ -390,7 +390,7 @@ function show_event(){
             "<tr><td>" +
                 "<label for='actions'>Acciones: </label>" +
                     "<input align='right' type='button' value='+' id='add_action' name='add_action' title=\"Adicionar Accion\" />" +
-                    "<input align='right' type='button' value='-' id='remove_action' name='remove_action' title=\"Eliminar Accion\" />" +
+                    "<input style='visibility: hidden' align='right' type='button' value='-' id='remove_action' name='remove_action' title=\"Eliminar Accion\" />" +
                     "<select style='visibility: hidden' id='select_action' name='select_action'></select></div>" +
                     "<textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly>"+
                         JSON.stringify(events[select_events.selectedIndex].actions)+
@@ -437,16 +437,16 @@ function remove_event(){ // Falta
 // Configurar el select de eventos
 
 function event_select(){
-    var events = elements_array[_g('#elements').selectedIndex].events;
-    var select_event = _g('#select_subproperties');
+    let events = elements_array[_g('#elements').selectedIndex].events;
+    let select_event = _g('#select_subproperties');
     select_event.innerHTML = "";
     if (
         elements_count(events) > 0
     ){
         select_event.style = "visibility: visible;";
         for (event_id in events){
-            var node = document.createElement("option");    // Create a <option> node
-            var textnode = document.createTextNode(event_id);     // Create a text node
+            let node = document.createElement("option");    // Create a <option> node
+            let textnode = document.createTextNode(event_id);     // Create a text node
             node.id = event_id;
             node.appendChild(textnode);
             select_event.appendChild(node);
@@ -487,16 +487,16 @@ function event_events() {
 // Actualizando el selector de figuras
 
 function  shapes_select() {
-    var shapes = elements_array[_g('#elements').selectedIndex].shapes;
-    var select_shape = _g('#select_subproperties');
+    let shapes = elements_array[_g('#elements').selectedIndex].shapes;
+    let select_shape = _g('#select_subproperties');
     select_shape.innerHTML = "";
     if (
         elements_count(shapes) > 0
     ){
         select_shape.style = "visibility: visible;";
         for (shape_id in shapes){
-            var node = document.createElement("option");    // Create a <option> node
-            var textnode = document.createTextNode(shapes[shape_id].name);     // Create a text node
+            let node = document.createElement("option");    // Create a <option> node
+            let textnode = document.createTextNode(shapes[shape_id].name);     // Create a text node
             node.id = shape_id;
             node.appendChild(textnode);
             select_shape.appendChild(node);
@@ -546,7 +546,6 @@ function add_shape() {
         shape_object.name = shape_name;
         option.text = shape_name;
         select_shape.style = "visibility: visible;";
-        console.log(select.selectedIndex);
         elements_array[select.selectedIndex].shapes[index] = shape_object;
         select_shape.add(option,index);
         select_shape.selectedIndex = index;
@@ -563,11 +562,11 @@ function shape_check(){
 // Eliminar figura
 function remove_shape(){
 
-    var select = _g('#elements');
-    var selected_shape = _g('#select_subproperties');
+    let select = _g('#elements');
+    let selected_shape = _g('#select_subproperties');
     delete elements_array[select.selectedIndex].shapes[selected_shape.selectedIndex];
-    var object_shapes = clone(elements_array[select.selectedIndex].shapes);
-    var count = 0;
+    let object_shapes = clone(elements_array[select.selectedIndex].shapes);
+    let count = 0;
     for (shape_id in object_shapes){
         elements_array[select.selectedIndex].shapes[count] = object_shapes[shape_id];
         count++;
@@ -613,16 +612,16 @@ lienzo.addEventListener('mousemove', function (evt) {
 }, false);
 
 lienzo.addEventListener('mousedown', function (evt) {
-    var select = _g("#elements");
-    var object = elements_array[select.selectedIndex];
+    let select = _g("#elements");
+    let object = elements_array[select.selectedIndex];
     if(_g("#check_point").checked == true && evt.which == 1){
         _g("#img_ptox").value = parseFloat(mousex-object.width/2,2);
         _g("#img_ptoy").value = parseFloat(mousey-object.height/2,2);
         save_props("img_ptox");
         save_props("img_ptoy");
     }else if(_g("#check_shape").checked == true && evt.which == 1){
-        var select_shape = _g('#select_subproperties');
-        var ptos = elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points;
+        let select_shape = _g('#select_subproperties');
+        let ptos = elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points;
         if(ptos == null){
             let shape_points = clone(shape_point);
             shape_points.x = Math.round(mousex,2);
@@ -639,7 +638,7 @@ lienzo.addEventListener('mousedown', function (evt) {
             draw_shapes(ptos);
         }
     }else if(_g("#check_shape").checked == true && evt.which == 2){
-        var shapes = elements_array[_g('#elements').selectedIndex].shapes[_g('#select_subproperties').selectedIndex];
+        let shapes = elements_array[_g('#elements').selectedIndex].shapes[_g('#select_subproperties').selectedIndex];
         delete shapes.shape_points[elements_count(shapes.shape_points)-1];
         _g('#Ptos').value = JSON.stringify(shapes.shape_points);
         draw_shapes(shapes.shape_points);
@@ -659,7 +658,7 @@ window.addEventListener("resize", function(){
 //Contar elementos de objetos
 
 function elements_count(elements){
-    var counter = 0;
+    let counter = 0;
     for (element in elements){
         counter += 1;
     }
@@ -696,8 +695,8 @@ function addE(id, event, fun, params=null){
 
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
+    let copy = obj.constructor();
+    for (let attr in obj) {
         if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
     return copy;
@@ -720,7 +719,7 @@ function delete_save(){
 
 //Anadiendo eventos iniciales
 
-function add_event_handler(){
+function add_event_handler(){20
 
     addE('#create','click',create_element);
     addE('#remove','click',remove_element);
@@ -740,14 +739,14 @@ function add_event_handler(){
         "<input value='+' id = 'create' type='button' title=\"Crear imagen\" />" +
         "<input value='-' id = 'remove' type='button' title=\"Eliminar imagen\" />" +
         "<input value='Generar codigo' id = 'generate' type='button'/>" +
-        "<input value='Crear' id = 'salva_save' type='button'/>" +
+        "<input value='Salva' id = 'salva_save' type='button'/>" +
         "<input value='Eliminar' id = 'delete_save' type='button'/></div><br>" +
         "<div id = 'properties'></div>";
 
     let var_elements = _g('#elements');
 
-    for (var arr_element in elements_array){
-        var option = document.createElement("option");
+    for (let arr_element in elements_array){
+        let option = document.createElement("option");
         option.id = arr_element;
         option.text = elements_array[arr_element].name;
         var_elements.add(option);
@@ -771,9 +770,17 @@ function generate(){
 // Adicionar acciones
 
 function add_action(){
+
     let action = clone(actions[0]);
-    let actions = elements_array[_g('#elements').selectedIndex].events[_g('#events').selectedIndex].actions;
-    actions[0]=action; //cambiar esto esta muy mal
+    let var_actions = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions;
+    let count = _g('#select_action').childElementCount;
+    var_actions[count]=action;
+    let option = document.createElement('option');
+    option.text = count;
+    option.value = count;
+    option.id = count;
+    _g('#select_action').add(option);
+    _g('#remove_action').style="visibility: visible;";
     let actions_table = _g('#actions_table');
     actions_table.innerHTML = select_action_type();
     show_action();
@@ -783,6 +790,7 @@ function add_action(){
 // Generar el select de tipos de acciones
 
 function select_action_type(){
+    _g('#select_action').style="visibility: visible;";
     let select = "<tr><td><select id='action_type' name='action_type'>";
     for (action in actions){
         select += "<option id="+actions[action].id+">"+actions[action].name+"</option>";
@@ -791,14 +799,30 @@ function select_action_type(){
     return select;
 }
 
+function select_element(){
+    let select = "<tr><td><select>";
+    for (let element in elements_array){
+        select+="<option id="+element+">"+elements_array[element].name+"</option>";
+    }
+    select += "</select></td></tr>";
+    return select;
+}
 // Mostrar acciones
 
 function show_action(){
 
     let actions_table = _g('#actions_table');
     switch (_g('#action_type').value) {
+
         case 'move_to':
-            actions_table.innerHTML += "<>";
+
+            actions_table.innerHTML += select_element();
+            actions_table.innerHTML += "<tr><td><label for='action_time'>Tiempo:</label><input id ='action_time' type='text' size='1%' /></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='action_speed'>Velocidad:</label><input id ='action_speed' type='text' size='1%' /></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='action_inc'>Incremento:</label><input id ='action_inc' type='text' size='1%' /></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='action_ptos'>Puntos:</label><textarea id ='action_ptos' readonly='true'></textarea></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='action_check'>Marcar:</label><input id ='action_check' readonly='true' type='checkbox' size='1%' ></input></td></tr>";
+
             break;
         case 'scale':
             break;
@@ -834,7 +858,7 @@ function remove_action(){
 
 // Movimiento de una imagen hacia un punto o varios puntos "Trayectoria";
 async function move_to(element_id,time,ptos,speed, inc = null, recta = null){
-    var len = JSON.stringify(ptos).length;
+    let len = JSON.stringify(ptos).length;
     if(recta == null || (ptos[0].ptox == elements_array[element_id].img_ptox && ptos[0].ptoy == elements_array[element_id].img_ptoy)){
         if(ptos[0].ptox == elements_array[element_id].img_ptox && ptos[0].ptoy == elements_array[element_id].img_ptoy){
             delete ptos[0];
@@ -858,30 +882,30 @@ async function move_to(element_id,time,ptos,speed, inc = null, recta = null){
         }
         elements_array[element_id].img_ptoy = (recta.pendiente*elements_array[element_id].img_ptox)+recta.n;
         show_elments();
-        setTimeout(move_to, speed * 1000, element_id, time, ptos, speed, inc, recta);
+        setTimeout(move_to, time * 1000, element_id, speed, ptos, speed, inc, recta);
     }
 }
 
 // Distancia entre puntos
 
 function distancia_entre_ptos(ptox1, ptoy1, ptox2, ptoy2){
-    var cateto_a = ptox1-ptox2;
-    var cateto_b = ptoy1-ptoy2;
+    let cateto_a = ptox1-ptox2;
+    let cateto_b = ptoy1-ptoy2;
     return Math.sqrt(Math.pow(cateto_a, 2)+Math.pow(cateto_b, 2));
 }
 
 function obtener_recta(ptoA,ptoB){
 
     //variables de la primera recta
-    var x11 = parseFloat(ptoA.ptox, 2);
-    var x12 = parseFloat(ptoB.ptox, 2);
-    var y11 = parseFloat(ptoA.ptoy, 2);
-    var y12 = parseFloat(ptoB.ptoy, 2);
+    let x11 = parseFloat(ptoA.ptox, 2);
+    let x12 = parseFloat(ptoB.ptox, 2);
+    let y11 = parseFloat(ptoA.ptoy, 2);
+    let y12 = parseFloat(ptoB.ptoy, 2);
     //pendiente de la primera recta
-    var pendiente1 = (y12 - y11)/(x12 - x11);
+    let pendiente1 = (y12 - y11)/(x12 - x11);
     //n de la primera recta
-    var n1 = ptoB.ptoy - (pendiente1*ptoB.ptox);
-    var recta = {
+    let n1 = ptoB.ptoy - (pendiente1*ptoB.ptox);
+    let recta = {
         "pendiente":pendiente1,
         "n":n1,
     }
