@@ -3,16 +3,7 @@
 var lienzo = _g('#canvas');
 var canvas = lienzo.getContext('2d');
 
-lienzo.width = 700;
-lienzo.height = 300;
-lienzo.tabIndex = 0;
-lienzo.style = "border: 1px solid black";
-var time = null;
 
-var mousex = 0, mousey = 0;
-rect = lienzo.getBoundingClientRect();
-scaleX = lienzo.width / rect.width;
-scaleY = lienzo.height / rect.height;
 
 var props = _g('#edit_canvas');
 
@@ -42,6 +33,17 @@ if (window.localStorage.getItem('elements_array') != null){
     localStorage.setItem('elements_array',JSON.stringify(clone(elements_array)));
 }
 
+lienzo.width = elements_array[0].height;
+lienzo.height = elements_array[0].width;
+lienzo.tabIndex = 0;
+lienzo.style = "border: 1px solid black";
+var time = null;
+
+var mousex = 0, mousey = 0;
+rect = lienzo.getBoundingClientRect();
+scaleX = lienzo.width / rect.width;
+scaleY = lienzo.height / rect.height;
+
 var shape = {
     name:null,
     shape_points:null
@@ -49,8 +51,8 @@ var shape = {
 
 //Figuras dentro del objeto
 var shape_point = {
-    x:null,
-    y:null
+    ptox:null,
+    ptoy:null
 }
 
 var events_type = {
@@ -67,13 +69,19 @@ var events_type = {
 var actions = {
     0:{
         name:'move_to',
-        element_id:null,
+        element_id:0,
         time:1,
         ptos:{},
         speed:1,
         inc: null,
         _do: function () {
-            move_to(this.element_id,this.time,this.ptos,this.speed, this.inc);
+            move_to(
+                this.element_id,
+                this.time,
+                clone(this.ptos),
+                this.speed,
+                this.inc
+            );
         }
     },
     1:{
@@ -217,17 +225,27 @@ function show_elments(){
         if(elements_array[element].img != null && elements_array[element].visibility == true){
             let img = new Image();
             img.src = elements_array[element].img;
-            canvas.drawImage(
+            draw_image(
                 img,
                 elements_array[element].img_ptox,
                 elements_array[element].img_ptoy,
                 parseInt(elements_array[element].height),
                 parseInt(elements_array[element].width)
             );
+
         }
     }
 };
 
+function draw_image(img, ptox,ptoy,heiht,width){
+    canvas.drawImage(
+        img,
+        ptox,
+        ptoy,
+        heiht,
+        width
+    );
+}
 // ----Fin de Crud de Objetos JSON----
 
 //++++++++ Otras funcionalidades ++++++++++
@@ -276,19 +294,23 @@ function draw_line(ptox1,ptoy1,ptox2,ptoy2) {
 
 }
 
-
 // Pintar figuras
-function draw_shapes(points){
+function draw_shapes(points, diff_x = 0, diff_y = 0){
 
     show_elments();
     for (point in points){
         if (point < elements_count(points)-1){
-            draw_line(points[point].x, points[point].y,points[parseInt(point)+1].x,points[parseInt(point)+1].y);
+            draw_line(
+                points[point].ptox + diff_x,
+                points[point].ptoy + diff_y,
+                points[parseInt(point)+1].ptox + diff_x,
+                points[parseInt(point)+1].ptoy + diff_y
+            );
         }
     }
 
-    if(_g('#check_shape').checked == false){
-        draw_line(points[elements_count(points)-1].x, points[elements_count(points)-1].y,points[0].x, points[0].y);
+    if(_g('#check_shape') != null && _g('#check_shape').checked == false){
+        draw_line(points[elements_count(points)-1].ptox, points[elements_count(points)-1].ptoy,points[0].ptox, points[0].ptoy);
     }
 
 }
@@ -388,11 +410,11 @@ function show_event(){
                 "<label for='shape'>Figura: </label><select id='shape'></select>" +
             "</td></tr><br>" +
             "<tr><td>" +
-                "<label for='actions'>Acciones: </label>" +
+                "<label for='actions'>Animaciones: </label>" +
                     "<input align='right' type='button' value='+' id='add_action' name='add_action' title=\"Adicionar Accion\" />" +
                     "<input style='visibility: hidden' align='right' type='button' value='-' id='remove_action' name='remove_action' title=\"Eliminar Accion\" />" +
-                    "<select style='visibility: hidden' id='select_action' name='select_action'></select></div>" +
-                    "<textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly>"+
+                    "<select style='visibility: hidden' id='select_action' name='select_action'></select></td></tr>" +
+            "<tr><td><textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly>"+
                         JSON.stringify(events[select_events.selectedIndex].actions)+
                 "</textarea> " +
             "</td></tr>";
@@ -462,8 +484,8 @@ function event_select(){
 function save_events(id){
 
     let object = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex];
-    let sentencia = "object."+id+" = '"+_g('#'+id).value+"'";
-    eval(sentencia);
+    let sentence = "object."+id+" = '"+_g('#'+id).value+"'";
+    eval(sentence);
 
 }
 
@@ -520,7 +542,7 @@ function show_shape() {
             "<label for='shape_name'>Nombre: </label><input type='text' id='shape_name' value = '"+shapes[select_shape.selectedIndex].name+"'/>" +
             "</td></tr>" +
             "<tr><td>" +
-            "<label for='Ptos'>Ptos: </label><textarea rows=\"4\" cols=\"50\" id='Ptos' size='1%' readonly>"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"</textarea> " +
+            "<label for='Ptos'>Puntos: </label><textarea rows=\"4\" cols=\"50\" id='Ptos' size='1%' readonly>"+JSON.stringify(shapes[select_shape.selectedIndex].shape_points)+"</textarea> " +
             "Marcar: <input type='checkbox' id='check_shape'>" +
             "</td></tr>";
         if(shapes[select_shape.selectedIndex].shape_points != null){
@@ -582,14 +604,17 @@ function remove_shape(){
 // Eventos de figuras
 
 function shape_events(){
+
     addE('#remove_shape','click',remove_shape);
     addE('#select_subproperties','change',show_shape);
     addE('#add_shape','click',add_shape);
+
 }
 
 // -------------- Fin Figuras --------------
 
 function save(){
+
     addE('#name','keyup',save_props,'name');
     addE('#img','change',save_props,'img');
     addE('#img_ptox','keyup',save_props,'img_ptox');
@@ -599,6 +624,7 @@ function save(){
     addE('#visibility','click',save_props,'visibility');
     addE('#open_shapes','click',open_subproperties,'open_shapes');
     addE('#open_events','click',open_subproperties,'open_events');
+
 }
 
 // ++++++++++++++++++++++ Eventos anclados al lienzo ++++++++++++++++++++
@@ -619,31 +645,88 @@ lienzo.addEventListener('mousedown', function (evt) {
         _g("#img_ptoy").value = parseFloat(mousey-object.height/2,2);
         save_props("img_ptox");
         save_props("img_ptoy");
-    }else if(_g("#check_shape").checked == true && evt.which == 1){
+    }else if(_g("#check_shape")!=null && _g("#check_shape").checked == true && evt.which == 1){
         let select_shape = _g('#select_subproperties');
         let ptos = elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points;
         if(ptos == null){
             let shape_points = clone(shape_point);
-            shape_points.x = Math.round(mousex,2);
-            shape_points.y = Math.round(mousey,2);
+            shape_points.ptox = Math.round(mousex,2);
+            shape_points.ptoy = Math.round(mousey,2);
             elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points={0:shape_points};
             draw_line(mousex-1,mousey,mousex+1,mousey);
             draw_line(mousex,mousey-1,mousex,mousey+1);
         }else{
             elements_array[select.selectedIndex].shapes[select_shape.selectedIndex].shape_points[elements_count(ptos)]={
-                'x':Math.round(mousex,2),
-                'y':Math.round(mousey,2)
+                'ptox':Math.round(mousex,2),
+                'ptoy':Math.round(mousey,2)
             };
             _g('#Ptos').value = JSON.stringify(ptos);
             draw_shapes(ptos);
         }
-    }else if(_g("#check_shape").checked == true && evt.which == 2){
+    }else if(_g("#check_shape")!=null && _g("#check_shape").checked == true && evt.which == 2){
         let shapes = elements_array[_g('#elements').selectedIndex].shapes[_g('#select_subproperties').selectedIndex];
         delete shapes.shape_points[elements_count(shapes.shape_points)-1];
         _g('#Ptos').value = JSON.stringify(shapes.shape_points);
         draw_shapes(shapes.shape_points);
+    }else if(_g("#action_check")!=null && _g("#action_check").checked == true && evt.which == 1){
+
+        let select_event = _g('#select_subproperties');
+        let actions = _g('#select_action');
+        let action = elements_array[select.selectedIndex].events[select_event.selectedIndex].actions[actions.selectedIndex];
+        let ptos = action.ptos;
+
+        let img = new Image();
+        img.src = elements_array[action.element_id].img;
+        if(JSON.stringify(ptos).toString().length == 2){
+
+            let shape_points = clone(shape_point);
+            shape_points.ptox = Math.round(mousex,2)-(elements_array[action.element_id].width/2);
+            shape_points.ptoy = Math.round(mousey,2)-(elements_array[action.element_id].height/2);
+            action.ptos={0:shape_points};
+
+            let img = new Image();
+            img.src = elements_array[action.element_id].img;
+            show_elments();
+            draw_image(
+                img,
+                shape_points.ptox,
+                shape_points.ptoy,
+                elements_array[action.element_id].height,
+                elements_array[action.element_id].width
+            );
+        }else{
+            let ptox = (Math.round(mousex,2)-(elements_array[action.element_id].width/2));
+            let ptoy = (Math.round(mousey,2)-(elements_array[action.element_id].height/2));
+            elements_array[select.selectedIndex].events[select_event.selectedIndex].actions[actions.selectedIndex].ptos[elements_count(ptos)]={
+                'ptox':ptox,
+                'ptoy':ptoy
+            };
+            _g('#ptos').value = JSON.stringify(ptos);
+            show_elments();
+            draw_shapes(ptos, (elements_array[action.element_id].width/2), (elements_array[action.element_id].height/2));
+            draw_image(
+                img,
+                ptox,
+                ptoy,
+                elements_array[action.element_id].height,
+                elements_array[action.element_id].width
+            );
+
+        }
     }
 }, false);
+
+lienzo.addEventListener('mousedown', function (evt) {
+    if(evt.which == 1){
+        for (element in elements_array){
+            for(event in elements_array[element].events){
+                if(elements_array[element].events[event].type == "click"){
+                    elements_array[element].shape[elements_array[element].events[event].shape];
+                }
+            }
+        }
+    }
+},false);
 
 window.addEventListener("resize", function(){
     rect = lienzo.getBoundingClientRect();
@@ -682,6 +765,7 @@ function _g(object){
 //Adicionar un evento a un boton
 
 function addE(id, event, fun, params=null){
+
     _g(id).addEventListener(event,function(){
         if(params != null){
             fun(params);
@@ -800,14 +884,40 @@ function select_action_type(){
 }
 
 function select_element(){
-    let select = "<tr><td><select>";
+    let select = "<tr><td><select id='select_shape_action'>";
     for (let element in elements_array){
-        select+="<option id="+element+">"+elements_array[element].name+"</option>";
+        select+="<option id="+element+" value="+element+">"+elements_array[element].name+"</option>";
     }
     select += "</select></td></tr>";
     return select;
 }
 // Mostrar acciones
+
+// Funcion de salva de propiedades
+function event_action_save(params) {
+    let parameters = params.split(",");
+    for (params in parameters){
+        addE('#'+parameters[params], 'keyup', save_action_props,parameters[params]);
+    }
+}
+
+function save_action_props(param) {
+
+    let sentence = "elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex]."+
+                    param+"="+"'"+_g('#'+param).value+"'";
+    eval(sentence);
+
+}
+
+function save_select_action() {
+
+    elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex].element_id = _g('#select_shape_action').value;
+
+}
+
+function test() {
+    elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex]._do();
+}
 
 function show_action(){
 
@@ -817,11 +927,15 @@ function show_action(){
         case 'move_to':
 
             actions_table.innerHTML += select_element();
-            actions_table.innerHTML += "<tr><td><label for='action_time'>Tiempo:</label><input id ='action_time' type='text' size='1%' /></td></tr>";
-            actions_table.innerHTML += "<tr><td><label for='action_speed'>Velocidad:</label><input id ='action_speed' type='text' size='1%' /></td></tr>";
-            actions_table.innerHTML += "<tr><td><label for='action_inc'>Incremento:</label><input id ='action_inc' type='text' size='1%' /></td></tr>";
-            actions_table.innerHTML += "<tr><td><label for='action_ptos'>Puntos:</label><textarea id ='action_ptos' readonly='true'></textarea></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='speed'>Velocidad (px/s):</label><input id ='speed' type='text' size='1%' value=20 /></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='inc'>Incremento:</label><input id ='inc' type='text' size='1%' /></td></tr>";
+            actions_table.innerHTML += "<tr><td><label for='ptos'>Puntos:</label><br><textarea id ='ptos' readonly='true'></textarea></td></tr>";
             actions_table.innerHTML += "<tr><td><label for='action_check'>Marcar:</label><input id ='action_check' readonly='true' type='checkbox' size='1%' ></input></td></tr>";
+            actions_table.innerHTML += "<tr><td><input id ='test' readonly='true' type='button' value='Probar' ></input></td></tr>";
+            addE('#select_shape_action','change',save_select_action);
+            addE('#test','click',test);
+            event_action_save("time,speed,inc");
 
             break;
         case 'scale':
@@ -857,10 +971,19 @@ function remove_action(){
 
 
 // Movimiento de una imagen hacia un punto o varios puntos "Trayectoria";
-async function move_to(element_id,time,ptos,speed, inc = null, recta = null){
+async function move_to(element_id,time,ptos,speed, line = null, factor = null){
+
     let len = JSON.stringify(ptos).length;
-    if(recta == null || (ptos[0].ptox == elements_array[element_id].img_ptox && ptos[0].ptoy == elements_array[element_id].img_ptoy)){
-        if(ptos[0].ptox == elements_array[element_id].img_ptox && ptos[0].ptoy == elements_array[element_id].img_ptoy){
+    let x = parseInt(ptos[0].ptox) - parseInt(elements_array[element_id].img_ptox);
+    let y = parseInt(ptos[0].ptoy) - parseInt(elements_array[element_id].img_ptoy);
+
+    if(line == null || ((x<=factor+1 && x >=-factor-1) && (y>=-1 && y <= 1))){
+
+        if((x<=1 && x >=-1) && (y>=-1 && y <= 1)){
+
+            elements_array[element_id].img_ptox = ptos[0].ptox;
+            elements_array[element_id].img_ptoy = ptos[0].ptoy;
+
             delete ptos[0];
             let count = 0;
             for (element in ptos){
@@ -869,32 +992,61 @@ async function move_to(element_id,time,ptos,speed, inc = null, recta = null){
             }
             delete ptos[count];
             len = JSON.stringify(ptos).length;
+            console.log(elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex].ptos);
         }
         if(len > 2) {
-            recta = obtener_recta({ptox:elements_array[element_id].img_ptox, ptoy:elements_array[element_id].img_ptoy}, ptos[0]);
+            line = get_line({ptox:elements_array[element_id].img_ptox, ptoy:elements_array[element_id].img_ptoy}, ptos[0]);
+            factor = get_factor(
+                elements_array[element_id].img_ptox,
+                elements_array[element_id].img_ptoy,
+                ptos[0].ptox,
+                ptos[0].ptoy,
+                speed,
+                line
+            );
         }
     }
+
     if(len > 2) {
+
         if(elements_array[element_id].img_ptox<ptos[0].ptox){
-            elements_array[element_id].img_ptox += 1;
+            elements_array[element_id].img_ptox += factor;
         }else{
-            elements_array[element_id].img_ptox -= 1;
+            elements_array[element_id].img_ptox -= factor;
         }
-        elements_array[element_id].img_ptoy = (recta.pendiente*elements_array[element_id].img_ptox)+recta.n;
+        elements_array[element_id].img_ptoy = (line.pendiente*elements_array[element_id].img_ptox)+line.n;
         show_elments();
-        setTimeout(move_to, time * 1000, element_id, speed, ptos, speed, inc, recta);
+        setTimeout(move_to, time, element_id, 50, ptos, speed, line, factor);
+
     }
+}
+
+// Obteniendo factor de incremento
+
+function get_factor(x1,y1,x2,y2,speed,line){
+
+    let distance = distance_beteewn_2points(x1,y1,x2,y2);
+    let steps = speed*(0.05);
+    let x = 0;
+    if(x1<x2){
+        x = x1 + 1;
+    }else{
+        x = x1 - 1;
+    }
+    let y = (line.pendiente*x)+line.n;
+    return steps/distance_beteewn_2points(x1, y1, x,y);
+
 }
 
 // Distancia entre puntos
 
-function distancia_entre_ptos(ptox1, ptoy1, ptox2, ptoy2){
+function distance_beteewn_2points(ptox1, ptoy1, ptox2, ptoy2){
     let cateto_a = ptox1-ptox2;
     let cateto_b = ptoy1-ptoy2;
     return Math.sqrt(Math.pow(cateto_a, 2)+Math.pow(cateto_b, 2));
 }
 
-function obtener_recta(ptoA,ptoB){
+function get_line(ptoA,ptoB){
 
     //variables de la primera recta
     let x11 = parseFloat(ptoA.ptox, 2);
