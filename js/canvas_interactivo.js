@@ -637,6 +637,8 @@ lienzo.addEventListener('mousemove', function (evt) {
     mousey = (evt.clientY - rect.top)*scaleY;
 }, false);
 
+// Eventos para crear animaciones
+
 lienzo.addEventListener('mousedown', function (evt) {
     let select = _g("#elements");
     let object = elements_array[select.selectedIndex];
@@ -716,12 +718,21 @@ lienzo.addEventListener('mousedown', function (evt) {
     }
 }, false);
 
+// Eventos reales del sistema
+
 lienzo.addEventListener('mousedown', function (evt) {
     if(evt.which == 1){
+        let element = clone(elements_array);
         for (element in elements_array){
-            for(event in elements_array[element].events){
+            let events = clone(elements_array[element].events);
+            for(event in events){
                 if(elements_array[element].events[event].type == "click"){
-                    elements_array[element].shape[elements_array[element].events[event].shape];
+                    if(belongs_to_shape(elements_array[element].shapes[elements_array[element].events[event].shape], {ptox:Math.round(mousex,2),ptoy:Math.round(mousey,2)})){
+                        let actions = elements_array[element].events[event].actions;
+                        for (action in actions){
+                            console.log(elements_array[element].events[event].actions[action]);
+                        }
+                    }
                 }
             }
         }
@@ -970,6 +981,8 @@ function remove_action(){
 // ---------------Fin de CRUD de acciones ------------------
 
 
+// ++++++++++++++++++++++++++++++++++++++ FUNCIONES DE ANIMACIONES +++++++++++++++++++++++++++++++++++++++
+
 // Movimiento de una imagen hacia un punto o varios puntos "Trayectoria";
 async function move_to(element_id,time,ptos,speed, line = null, factor = null){
 
@@ -992,7 +1005,6 @@ async function move_to(element_id,time,ptos,speed, line = null, factor = null){
             }
             delete ptos[count];
             len = JSON.stringify(ptos).length;
-            console.log(elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex].ptos);
         }
         if(len > 2) {
             line = get_line({ptox:elements_array[element_id].img_ptox, ptoy:elements_array[element_id].img_ptoy}, ptos[0]);
@@ -1006,7 +1018,6 @@ async function move_to(element_id,time,ptos,speed, line = null, factor = null){
             );
         }
     }
-
     if(len > 2) {
 
         if(elements_array[element_id].img_ptox<ptos[0].ptox){
@@ -1046,6 +1057,8 @@ function distance_beteewn_2points(ptox1, ptoy1, ptox2, ptoy2){
     return Math.sqrt(Math.pow(cateto_a, 2)+Math.pow(cateto_b, 2));
 }
 
+// Obtener recta
+
 function get_line(ptoA,ptoB){
 
     //variables de la primera recta
@@ -1062,6 +1075,67 @@ function get_line(ptoA,ptoB){
         "n":n1,
     }
     return recta;
-
 }
+
+// Funcionlidad comprobacion de click perteneciente a una figura
+
+function belongs_to_shape(shape, mouse_point) {
+    let count = 1;
+    let count2 = 0;
+    let counter = elements_count(shape.shape_points)-1;
+    for (;count<counter;){
+        let pto_interception = pto_cross_lines(
+            {
+                ptox: mousex,
+                ptoy: mousey
+            },
+            shape.shape_points[count2],
+            shape.shape_points[count],
+            shape.shape_points[count + 1]
+        );
+        if (
+            beteew_ptos(pto_interception, shape.shape_points[count], shape.shape_points[count+1]) &&
+            (
+                distance_beteewn_2points(mousex, mousey, shape.shape_points[count2].ptox, shape.shape_points[count2].ptoy) <=
+                distance_beteewn_2points(pto_interception.ptox, pto_interception.ptoy, shape.shape_points[count2].ptox, shape.shape_points[count2].ptoy)
+            ) && (
+                distance_beteewn_2points(mousex, mousey, shape.shape_points[count].ptox, shape.shape_points[count].ptoy) <=
+                distance_beteewn_2points(shape.shape_points[count].ptox, shape.shape_points[count].ptoy, shape.shape_points[count2].ptox, shape.shape_points[count2].ptoy)
+            )) {
+            return true;
+        }
+        count+=1;
+    };
+    return false;
+}
+
+// Punto de intercepcion entre rectas
+
+function pto_cross_lines(ptoP, pto1, pto2, pto3){
+
+    //obteniendo primera recta
+    let line1 = get_line(pto1, ptoP);
+
+    //obteniendo segunda recta
+    let line2 = get_line(pto2, pto3);
+    //obteniendo punto de interseccion
+
+    let pto_intercepcion = {
+        "ptox": (line2.n-line1.n)/(line2.pendiente-line1.pendiente)
+    };
+    if (Math.sign(pto_intercepcion.ptox) == -1){
+        pto_intercepcion.ptox = -pto_intercepcion.ptox;
+    };
+    pto_intercepcion.ptoy = (line2.pendiente*pto_intercepcion.ptox)+line2.n;
+
+    return pto_intercepcion;
+}
+
+// El punto p se encuentra entre 2 puntos
+
+function beteew_ptos(ptoP, pto2, pto3){
+    let x = (Math.sign(ptoP.ptox-pto2.ptox) == -1)?(Math.sign(ptoP.ptox-pto3.ptox) != -1):(Math.sign(ptoP.ptox-pto3.ptox) == -1);
+    return (x)?(Math.sign(ptoP.ptoy-pto2.ptoy) == -1)?(Math.sign(ptoP.ptoy-pto3.ptoy) != -1):(Math.sign(ptoP.ptoy-pto3.ptoy) == -1):(x);
+}
+
 // ------------------------- Funciones de acciones -----------------------------
