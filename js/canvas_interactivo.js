@@ -74,7 +74,7 @@ var actions = {
         ptos:{},
         speed:1,
         inc: null,
-        _do: function () {
+        do_now: function () {
             move_to(
                 this.element_id,
                 this.time,
@@ -82,6 +82,7 @@ var actions = {
                 this.speed,
                 this.inc
             );
+
         }
     },
     1:{
@@ -722,15 +723,17 @@ lienzo.addEventListener('mousedown', function (evt) {
 
 lienzo.addEventListener('mousedown', function (evt) {
     if(evt.which == 1){
-        let element = clone(elements_array);
-        for (element in elements_array){
+
+        let elements = clone(elements_array);
+        for (element in elements){
             let events = clone(elements_array[element].events);
+            let cont = element;
             for(event in events){
-                if(elements_array[element].events[event].type == "click"){
-                    if(belongs_to_shape(elements_array[element].shapes[elements_array[element].events[event].shape], {ptox:Math.round(mousex,2),ptoy:Math.round(mousey,2)})){
-                        let actions = elements_array[element].events[event].actions;
+                if(elements_array[cont].events[event].type == "click"){
+                    if(belongs_to_shape(elements_array[cont].shapes[elements_array[cont].events[event].shape], {ptox:Math.round(mousex,2),ptoy:Math.round(mousey,2)})){
+                        let actions = elements_array[cont].events[event].actions;
                         for (action in actions){
-                            console.log(elements_array[element].events[event].actions[action]);
+                            elements_array[cont].events[event].actions[action].do_now();
                         }
                     }
                 }
@@ -927,7 +930,7 @@ function save_select_action() {
 }
 
 function test() {
-    elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex]._do();
+    elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex].do_now();
 }
 
 function show_action(){
@@ -984,7 +987,11 @@ function remove_action(){
 // ++++++++++++++++++++++++++++++++++++++ FUNCIONES DE ANIMACIONES +++++++++++++++++++++++++++++++++++++++
 
 // Movimiento de una imagen hacia un punto o varios puntos "Trayectoria";
-async function move_to(element_id,time,ptos,speed, line = null, factor = null){
+async function move_to(element_id,time,ptos,speed, line = null, ptos_init = null ,factor = null){
+
+    if(ptos_init == null){
+        ptos_init = {ptox:elements_array[element_id].img_ptox, ptoy:elements_array[element_id].img_ptoy};
+    };
 
     let len = JSON.stringify(ptos).length;
     let x = parseInt(ptos[0].ptox) - parseInt(elements_array[element_id].img_ptox);
@@ -1025,13 +1032,30 @@ async function move_to(element_id,time,ptos,speed, line = null, factor = null){
         }else{
             elements_array[element_id].img_ptox -= factor;
         }
+
         elements_array[element_id].img_ptoy = (line.pendiente*elements_array[element_id].img_ptox)+line.n;
         show_elments();
-        setTimeout(move_to, time, element_id, 50, ptos, speed, line, factor);
-
+        setTimeout(move_to, time, element_id, 50, ptos, speed, line, ptos_init, factor);
+    }else{
+        correction_shapes(ptos_init, element_id);
     }
 }
 
+// Correccion de figuras despues del movimiento del elemento
+
+function correction_shapes(ptos_init, element_id) {
+    let inc_x = elements_array[element_id].img_ptox - ptos_init.ptox;
+    let inc_y = elements_array[element_id].img_ptoy - ptos_init.ptoy;
+    var instance_shapes = elements_array[element_id].shapes;
+
+    for (shape in instance_shapes){
+        var intance_ptos = instance_shapes[shape].shape_points;
+        for (pto in intance_ptos){
+            intance_ptos[pto].ptox += inc_x;
+            intance_ptos[pto].ptoy += inc_y;
+        }
+    }
+}
 // Obteniendo factor de incremento
 
 function get_factor(x1,y1,x2,y2,speed,line){
