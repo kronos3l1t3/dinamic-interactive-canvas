@@ -714,7 +714,9 @@ lienzo.addEventListener('mousedown', function (evt) {
                     if(belongs_to_shape(elements_array[cont].shapes[elements_array[cont].events[event].shape], {ptox:Math.round(mousex,2),ptoy:Math.round(mousey,2)})){
                         let actions = elements_array[cont].events[event].actions;
                         for (action in actions){
-                            elements_array[cont].events[event].actions[action].do_now();
+                            if(elements_array[cont].events[event].actions[action].do_now != null){
+                                elements_array[cont].events[event].actions[action].do_now();
+                            }
                         }
                     }
                 }
@@ -773,7 +775,7 @@ function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     let copy = obj.constructor();
     for (let attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
     }
     return copy;
 };
@@ -828,11 +830,17 @@ function add_event_handler(){
 
     add_event_handler();
     edit_element();
+
 })();
 
 // ++++++++++++++ Funcion para generar o exportar el codigo del canvas "coming sun" ++++++++++++++++++
 function generate(){
-    alert('Comming sun boby');
+    var my_code = window.open();
+    my_code.document.write("// Elementos del proyecto");
+    my_code.document.write("<br>");
+    my_code.document.write("<br>");
+    my_code.document.write("elements_array="+JSON.stringify(elements_array));
+    my_code.document.write("<br>");
 }
 // --------------Fin de exportacion del canvas -------------------
 
