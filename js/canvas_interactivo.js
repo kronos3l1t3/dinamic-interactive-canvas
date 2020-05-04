@@ -390,7 +390,6 @@ function add_event() {
 
 function show_event(){
     let events = elements_array[_g('#elements').selectedIndex].events;
-    show_elments();
     if (elements_count(events)>0){
         let events_table = _g('#events_table');
         let select_events = _g('#select_subproperties');
@@ -407,10 +406,16 @@ function show_event(){
             "</td></tr><br>" +
             "<tr><td>" +
                 "<label for='actions'>Animaciones: </label>" +
-                    "<input align='right' type='button' value='+' id='add_action' name='add_action' title=\"Adicionar Accion\" />" +
-                    "<input style='visibility: hidden' align='right' type='button' value='-' id='remove_action' name='remove_action' title=\"Eliminar Accion\" />" +
-                    "<select style='visibility: hidden' id='select_action' name='select_action'></select></td></tr>" +
-            "<tr><td><textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly>"+
+                    "<input align='right' type='button' value='+' id='add_action' name='add_action' title=\"Adicionar Accion\" />";
+        if(JSON.stringify(elements_array[_g('#elements').selectedIndex].events[select_events.selectedIndex].actions).toString().length > 2){
+            events_table.innerHTML += "<input align='right' type='button' value='-' id='remove_action' name='remove_action' title=\"Eliminar Accion\" />" +
+                                        "<select id='select_action' name='select_action'></select></td></tr>";
+        }else{
+            events_table.innerHTML +=
+            "<input style='visibility: hidden' align='right' type='button' value='-' id='remove_action' name='remove_action' title=\"Eliminar Accion\" />" +
+            "<select style='visibility: hidden' id='select_action' name='select_action'></select></td></tr>";
+        }
+        events_table.innerHTML += "<tr><td><textarea rows=\"4\" cols=\"50\" id='actions' size='1%' readonly>"+
                         JSON.stringify(events[select_events.selectedIndex].actions)+
                 "</textarea> " +
             "</td></tr>";
@@ -443,6 +448,7 @@ function show_event(){
     }else{
         events_table.innerHTML ="";
     }
+    show_elments();
 }
 
 // Eliminar eventos
@@ -593,11 +599,9 @@ function remove_shape(){
 // Eventos de figuras
 
 function shape_events(){
-
     addE('#remove_shape','click',remove_shape);
     addE('#select_subproperties','change',show_shape);
     addE('#add_shape','click',add_shape);
-
 }
 
 // -------------- Fin Figuras --------------
@@ -616,7 +620,7 @@ function save(){
 
 // ++++++++++++++++++++++ Eventos anclados al lienzo ++++++++++++++++++++
 
-// ++++++++++++++++++++++++++ TU CODIGO VA AQUI +++++++++++++++++++++++++
+// Obteniendo direccion cardinal del mouse
 
 lienzo.addEventListener('mousemove', function (evt) {
     rect = lienzo.getBoundingClientRect();
@@ -724,6 +728,8 @@ lienzo.addEventListener('mousedown', function (evt) {
         }
     }
 },false);
+
+// ++++++++++++++++++++++++++ TU CODIGO VA AQUI +++++++++++++++++++++++++
 
 // Recalcular tamano del lienzo Exportar
 
@@ -871,7 +877,7 @@ function add_action(){
 
 // Generar el select de tipos de acciones
 
-function chage_action_type(){
+function change_action_type(){
     let actions_table = _g('#actions_table');
     let action_type = _g('#action_type');
     let action = clone(actions[_g('#action_type').selectedIndex]);
@@ -899,8 +905,7 @@ function select_action_type(option = null){
 function select_element(){
     let select = "<tr><td><select id='select_shape_action'>";
     for (let element in elements_array){
-        select+="<option id="+element+" value="+element+">"+elements_array[element].name+"</option>";
-    }
+        select+="<option id="+element+" value="+element+">"+elements_array[element].name+"</option>";    }
     select += "</select></td></tr>";
     return select;
 }
@@ -935,9 +940,7 @@ function show_action(){
 
     let actions_table = _g('#actions_table');
     switch (_g('#action_type').value) {
-
         case 'move_to':
-
             actions_table.innerHTML += select_element();
             actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
             actions_table.innerHTML += "<tr><td><label for='speed'>Velocidad (px/s):</label><input id ='speed' type='text' size='1%' value=20 /></td></tr>";
@@ -947,47 +950,37 @@ function show_action(){
             actions_table.innerHTML += "<tr><td><input id ='test' readonly='true' type='button' value='Probar' ></input></td></tr>";
             addE('#select_shape_action','change',save_select_action);
             addE('#test','click',test);
-            addE('#action_type','change',chage_action_type);
+            addE('#action_type','change',change_action_type);
             event_action_save("time,speed,inc");
-
             break;
         case 'scale':
             break;
         case 'toggle':
-
             actions_table.innerHTML = select_action_type(2);
             actions_table.innerHTML += select_element();
             actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
             addE('#select_shape_action','change',save_select_action);
             event_action_save("time");
-
             break;
         case 'text_show':
             break;
         case 'rotate':
             break;
         case 'on':
-
             actions_table.innerHTML = select_action_type(5);
             actions_table.innerHTML += select_element();
             actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
-
             addE('#select_shape_action','change',save_select_action);
             event_action_save("time");
-
             break;
         case 'off':
-
             actions_table.innerHTML = select_action_type(6);
             actions_table.innerHTML += select_element();
             actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
-
             addE('#select_shape_action','change',save_select_action);
             event_action_save("time");
-
             break;
     }
-
 }
 
 // Editar acciones
