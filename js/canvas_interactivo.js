@@ -89,10 +89,15 @@ var actions = {
         name:'scale',
         element_id:null,
         time:1,
+        speed:1,
         raize:1,
-        interval:1,
-        _do: function(){
-            console.log(this.element_id);
+        do_now: function(){
+            scale(
+                this.element_id,
+                this.time,
+                this.speed,
+                this.inc
+            );
         }
     },
     2:{
@@ -100,15 +105,15 @@ var actions = {
         element_id:null,
         time:null,
         efect: null,
-        _do: function () {
-            console.log(this.element_id);
+        do_now: function () {
+            toggle();
         }
     },
     3:{
         name:'text_show',
         element_id:null,
         time:null,
-        _do: function () {
+        do_now: function () {
             console.log(this.element_id);
         }
     },
@@ -116,7 +121,7 @@ var actions = {
         name:'rotate',
         element_id:null,
         time:null,
-        _do: function () {
+        do_now: function () {
             console.log(this.element_id);
         }
     },
@@ -124,16 +129,22 @@ var actions = {
         name:'on',
         element_id:null,
         time:null,
-        _do: function () {
-            console.log(this.element_id);
+        do_now: function () {
+            element_on(
+                this.element_id,
+                this.time
+            );
         }
     },
     6:{
         name:'off',
         element_id:null,
         time:null,
-        _do: function () {
-            console.log(this.element_id);
+        do_now: function () {
+            element_off(
+                this.element_id,
+                this.time
+            );
         }
     }
 }
@@ -268,9 +279,7 @@ function save_props(id_name){
             sentence = "object."+id_name+" = "+_g("#"+id_name).value;
             break;
     }
-
     eval(sentence);
-
     if(select.selectedIndex == 0){
         lienzo.width = parseInt(object.height);
         lienzo.height = parseInt(object.width);
@@ -279,7 +288,6 @@ function save_props(id_name){
     if(id_name='name') {
         select.value = object.name;
     };
-
     show_elments();
     setTimeout(show_elments,25);
 };
@@ -288,16 +296,13 @@ function save_props(id_name){
 
 // Pintar lineas
 function draw_line(ptox1,ptoy1,ptox2,ptoy2) {
-
     canvas.moveTo(ptox1, ptoy1);
     canvas.lineTo(ptox2, ptoy2);
     canvas.stroke();
-
 }
 
 // Pintar figuras
 function draw_shapes(points, diff_x = 0, diff_y = 0){
-
     show_elments();
     for (point in points){
         if (point < elements_count(points)-1){
@@ -309,19 +314,15 @@ function draw_shapes(points, diff_x = 0, diff_y = 0){
             );
         }
     }
-
     if(_g('#check_shape') != null && _g('#check_shape').checked == false){
         draw_line(points[elements_count(points)-1].ptox, points[elements_count(points)-1].ptoy,points[0].ptox, points[0].ptoy);
     }
-
 }
 // ----------------Fin de Funciones de dibujo -----------------
 
 function open_subproperties(object){
-
     let sub_properties = _g('#sub_properties');
     let select = _g('#elements');
-
     sub_properties.innerHTML = "SubProperties: <br>" +
         "<div style='display: inline-block;'>" +
             "<input type='button' id='close_subproperties' name = 'close_subproperties' value='&times' title=\"Cerrar\"/>";
@@ -350,16 +351,13 @@ function open_subproperties(object){
     }
     sub_properties.style = "visibility: visible; float: left; width: 20%;";
     addE('#close_subproperties','click',close_subproperties);
-
 }
 
 // +++++++++++++ Funciones de las sub-propiedades de un objeto ++++++++++++++
 function close_subproperties() {
-
     _g('#sub_properties').style = "visibility: hidden;";
     _g('#select_subproperties').style = "visibility: hidden;";
     show_elments();
-
 }
 
 // ------------- Fin de las funciones de las sub-propiedades de un objeto -------------
@@ -371,7 +369,6 @@ function close_subproperties() {
 // Adicionar eventos
 
 function add_event() {
-
     let select = _g('#elements');
     let select_events = _g('#select_subproperties');
     if (select_events != null) {
@@ -387,13 +384,11 @@ function add_event() {
         select_events.selectedIndex = index;
     }
     show_event();
-
 }
 
 // Adicionar eventos
 
 function show_event(){
-
     let events = elements_array[_g('#elements').selectedIndex].events;
     show_elments();
     if (elements_count(events)>0){
@@ -448,7 +443,6 @@ function show_event(){
     }else{
         events_table.innerHTML ="";
     }
-
 }
 
 // Eliminar eventos
@@ -483,21 +477,17 @@ function event_select(){
 // ----------------- Fin de CRUD de eventos ------------------
 
 function save_events(id){
-
     let object = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex];
     let sentence = "object."+id+" = '"+_g('#'+id).value+"'";
     eval(sentence);
-
 }
 
 // Eventos de eventos
 
 function event_events() {
-
     addE('#add_event', 'click', add_event);
     addE('#remove_event', 'click', remove_event);
     addE('#select_subproperties', 'change', show_event);
-
 }
 
 // -------------- Fin de Funciones de Eventos -----------------
@@ -584,7 +574,6 @@ function shape_check(){
 
 // Eliminar figura
 function remove_shape(){
-
     let select = _g('#elements');
     let selected_shape = _g('#select_subproperties');
     delete elements_array[select.selectedIndex].shapes[selected_shape.selectedIndex];
@@ -598,7 +587,6 @@ function remove_shape(){
     shapes_select();
     show_elments();
     show_shape();
-
 }
 // -------------- Fin CRUD Figuras --------------
 
@@ -615,7 +603,6 @@ function shape_events(){
 // -------------- Fin Figuras --------------
 
 function save(){
-
     addE('#name','keyup',save_props,'name');
     addE('#img','change',save_props,'img');
     addE('#img_ptox','keyup',save_props,'img_ptox');
@@ -625,7 +612,6 @@ function save(){
     addE('#visibility','click',save_props,'visibility');
     addE('#open_shapes','click',open_subproperties,'open_shapes');
     addE('#open_events','click',open_subproperties,'open_events');
-
 }
 
 // ++++++++++++++++++++++ Eventos anclados al lienzo ++++++++++++++++++++
@@ -672,16 +658,13 @@ lienzo.addEventListener('mousedown', function (evt) {
         _g('#Ptos').value = JSON.stringify(shapes.shape_points);
         draw_shapes(shapes.shape_points);
     }else if(_g("#action_check")!=null && _g("#action_check").checked == true && evt.which == 1){
-
         let select_event = _g('#select_subproperties');
         let actions = _g('#select_action');
         let action = elements_array[select.selectedIndex].events[select_event.selectedIndex].actions[actions.selectedIndex];
         let ptos = action.ptos;
-
         let img = new Image();
         img.src = elements_array[action.element_id].img;
         if(JSON.stringify(ptos).toString().length == 2){
-
             let shape_points = clone(shape_point);
             shape_points.ptox = Math.round(mousex,2)-(elements_array[action.element_id].width/2);
             shape_points.ptoy = Math.round(mousey,2)-(elements_array[action.element_id].height/2);
@@ -714,7 +697,6 @@ lienzo.addEventListener('mousedown', function (evt) {
                 elements_array[action.element_id].height,
                 elements_array[action.element_id].width
             );
-
         }
     }
 }, false);
@@ -723,7 +705,6 @@ lienzo.addEventListener('mousedown', function (evt) {
 
 lienzo.addEventListener('mousedown', function (evt) {
     if(evt.which == 1){
-
         let elements = clone(elements_array);
         for (element in elements){
             let events = clone(elements_array[element].events);
@@ -765,7 +746,6 @@ function elements_count(elements){
 //Obtener elemento por id remplazar si es necesario por JQUERY
 
 function _g(object){
-
     if(object.indexOf('#') != -1){ // Return elements by id
         return document.getElementById(object.replace('#',''));
     }else if(object.indexOf('+') != -1){ // Return elements by Tag
@@ -773,13 +753,11 @@ function _g(object){
     }else if(object.indexOf('.') != -1){ // Return elements by Class
         return document.getElementsByClassName(object.replace('.',''));
     }
-
 };
 
 //Adicionar un evento a un boton
 
 function addE(id, event, fun, params=null){
-
     _g(id).addEventListener(event,function(){
         if(params != null){
             fun(params);
@@ -817,15 +795,13 @@ function delete_save(){
 
 //Anadiendo eventos iniciales
 
-function add_event_handler(){20
-
+function add_event_handler(){
     addE('#create','click',create_element);
     addE('#remove','click',remove_element);
     addE('#elements','change',edit_element);
     addE('#generate','click',generate);
     addE('#salva_save','click',salva_save);
     addE('#delete_save','click',delete_save);
-
 }
 
 // Funcion inicial del sistema
@@ -868,7 +844,6 @@ function generate(){
 // Adicionar acciones
 
 function add_action(){
-
     let action = clone(actions[0]);
     let var_actions = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions;
     let count = _g('#select_action').childElementCount;
@@ -882,16 +857,30 @@ function add_action(){
     let actions_table = _g('#actions_table');
     actions_table.innerHTML = select_action_type();
     show_action();
-
 }
 
 // Generar el select de tipos de acciones
 
-function select_action_type(){
+function chage_action_type(){
+    let actions_table = _g('#actions_table');
+    let action_type = _g('#action_type');
+    let action = clone(actions[_g('#action_type').selectedIndex]);
+    let var_actions = elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions;
+    let count = _g('#select_action').value;
+    var_actions[count]=action;
+    show_action();
+}
+
+function select_action_type(option = null){
     _g('#select_action').style="visibility: visible;";
     let select = "<tr><td><select id='action_type' name='action_type'>";
+    if(option != null){
+        select+="<option id="+actions[option].id+">"+actions[option].name+"</option>";
+    }
     for (action in actions){
-        select += "<option id="+actions[action].id+">"+actions[action].name+"</option>";
+        if(action != option){
+            select += "<option id="+actions[action].id+">"+actions[action].name+"</option>";
+        }
     }
     select += "</select></td></tr>";
     return select;
@@ -916,17 +905,16 @@ function event_action_save(params) {
 }
 
 function save_action_props(param) {
-
     let sentence = "elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex]."+
                     param+"="+"'"+_g('#'+param).value+"'";
     eval(sentence);
-
 }
 
 function save_select_action() {
-
-    elements_array[_g('#elements').selectedIndex].events[_g('#select_subproperties').selectedIndex].actions[_g('#select_action').selectedIndex].element_id = _g('#select_shape_action').value;
-
+    elements_array[_g('#elements').selectedIndex].
+        events[_g('#select_subproperties').selectedIndex].
+        actions[_g('#select_action').selectedIndex].
+        element_id = _g('#select_shape_action').value;
 }
 
 function test() {
@@ -949,6 +937,7 @@ function show_action(){
             actions_table.innerHTML += "<tr><td><input id ='test' readonly='true' type='button' value='Probar' ></input></td></tr>";
             addE('#select_shape_action','change',save_select_action);
             addE('#test','click',test);
+            addE('#action_type','change',chage_action_type);
             event_action_save("time,speed,inc");
 
             break;
@@ -961,6 +950,14 @@ function show_action(){
         case 'rotate':
             break;
         case 'on':
+
+            actions_table.innerHTML = select_action_type();
+            actions_table.innerHTML += select_element();
+            actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
+
+            addE('#select_shape_action','change',save_select_action);
+            event_action_save("time");
+
             break;
         case 'off':
             break;
@@ -1026,20 +1023,46 @@ async function move_to(element_id,time,ptos,speed, line = null, ptos_init = null
         }
     }
     if(len > 2) {
-
         if(elements_array[element_id].img_ptox<ptos[0].ptox){
             elements_array[element_id].img_ptox += factor;
         }else{
             elements_array[element_id].img_ptox -= factor;
         }
-
         elements_array[element_id].img_ptoy = (line.pendiente*elements_array[element_id].img_ptox)+line.n;
         show_elments();
-        setTimeout(move_to, time, element_id, 50, ptos, speed, line, ptos_init, factor);
+        setTimeout(move_to, time, element_id, 25, ptos, speed, line, ptos_init, factor);
     }else{
         correction_shapes(ptos_init, element_id);
     }
 }
+
+// Scala de imagen
+
+// Rotacion de imagen
+
+// Insercion de nueva imagen
+
+// Ciclo de trayectoria
+
+// Mensaje
+
+// Seguimiento
+
+// Activar imagen
+
+async function element_on(element_id, time = null) {
+    elements_array[element_id].visibility = true;
+    setTimeout(show_elments,50);
+    setTimeout(show_elments,50);
+}
+
+// Desactivar imagen
+
+async function element_off(element_id, time = null) {
+    elements_array[element_id].visibility = false;
+}
+
+// ------------------------------------- FIN  FUNCIONES DE ANIMACIONES ---------------------------------------
 
 // Correccion de figuras despues del movimiento del elemento
 
@@ -1056,6 +1079,7 @@ function correction_shapes(ptos_init, element_id) {
         }
     }
 }
+
 // Obteniendo factor de incremento
 
 function get_factor(x1,y1,x2,y2,speed,line){

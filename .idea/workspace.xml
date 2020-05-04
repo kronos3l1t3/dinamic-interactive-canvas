@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="">
+    <list default="true" id="b86a2cdb-ab76-4d66-965c-7ff9e53d324f" name="Default Changelist" comment="-Correccion de movimiento de figuras">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/canvas_interactivo.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/canvas_interactivo.js" afterDir="false" />
     </list>
@@ -102,6 +102,18 @@
       <workItem from="1587227055805" duration="3827000" />
       <workItem from="1587253814278" duration="1204000" />
       <workItem from="1587263696337" duration="549000" />
+      <workItem from="1587869613911" duration="599000" />
+      <workItem from="1588021870245" duration="4895000" />
+      <workItem from="1588103696995" duration="7675000" />
+      <workItem from="1588184100490" duration="744000" />
+      <workItem from="1588251372883" duration="2686000" />
+      <workItem from="1588259029790" duration="11300000" />
+      <workItem from="1588273758882" duration="779000" />
+      <workItem from="1588279162457" duration="4258000" />
+      <workItem from="1588343306279" duration="9876000" />
+      <workItem from="1588442793482" duration="12972000" />
+      <workItem from="1588571822298" duration="526000" />
+      <workItem from="1588598156513" duration="2866000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1586146495900</created>
@@ -236,7 +248,28 @@
       <option name="project" value="LOCAL" />
       <updated>1587263829831</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="-animacion de movimiento velocidad corregida">
+      <created>1588273797483</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1588273797483</updated>
+    </task>
+    <task id="LOCAL-00021" summary="-Detectando figura marcada con el puntero y generando accion">
+      <created>1588363836382</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1588363836382</updated>
+    </task>
+    <task id="LOCAL-00022" summary="-Correccion de movimiento de figuras">
+      <created>1588465470535</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1588465470535</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,37 +306,44 @@
     <MESSAGE value="-Errores de figuras y eventos corregido" />
     <MESSAGE value="-Errores eventos corregido (crear nuevo evento)" />
     <MESSAGE value="-Salvas localstorage" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Salvas localstorage" />
+    <MESSAGE value="-animacion de movimiento velocidad corregida" />
+    <MESSAGE value="-Detectando figura marcada con el puntero y generando accion" />
+    <MESSAGE value="-Correccion de movimiento de figuras" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Correccion de movimiento de figuras" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1587263828757">
+    <state x="390" y="169" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587861763772">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1587263828757" />
-    <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1586396650257">
+    <state x="390" y="169" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.732@0.0.1366.732" timestamp="1587861763772" />
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1588466490914">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1586396650257" />
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1588466490914" />
+    <state x="467" y="122" width="430" height="486" key="FileChooserDialogImpl" timestamp="1588272702173">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="467" y="122" key="FileChooserDialogImpl/0.0.1366.732@0.0.1366.732" timestamp="1588272702173" />
     <state x="467" y="123" width="430" height="486" key="FileChooserDialogImpl/0.0.1366.737@0.0.1366.737" timestamp="1585771815969" />
     <state x="531" y="282" key="VCS.ChangelistChooser" timestamp="1586146452294">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="531" y="282" key="VCS.ChangelistChooser/0.0.1366.732@0.0.1366.732" timestamp="1586146452294" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1587149095023">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1588466149540">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1587149095023" />
-    <state x="391" y="151" key="com.intellij.ide.util.TipDialog" timestamp="1587263708661">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1588466149540" />
+    <state x="391" y="151" key="com.intellij.ide.util.TipDialog" timestamp="1588598156705">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="391" y="151" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1587263708661" />
-    <state x="347" y="160" key="run.anything.popup" timestamp="1587154760487">
+    <state x="391" y="151" key="com.intellij.ide.util.TipDialog/0.0.1366.732@0.0.1366.732" timestamp="1588598156705" />
+    <state x="347" y="160" key="run.anything.popup" timestamp="1588261888833">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1587154760487" />
-    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1586525289020">
+    <state x="347" y="160" key="run.anything.popup/0.0.1366.732@0.0.1366.732" timestamp="1588261888833" />
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1588451644253">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1586525289020" />
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1588451644253" />
   </component>
 </project>
