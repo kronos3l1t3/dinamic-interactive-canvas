@@ -3,8 +3,6 @@
 var lienzo = _g('#canvas');
 var canvas = lienzo.getContext('2d');
 
-
-
 var props = _g('#edit_canvas');
 
 //Objeto y propiedades de los elementos
@@ -35,7 +33,7 @@ if (window.localStorage.getItem('elements_array') != null){
 
 lienzo.width = elements_array[0].height;
 lienzo.height = elements_array[0].width;
-lienzo.tabIndex = 0;
+
 lienzo.style = "border: 1px solid black";
 var time = null;
 
@@ -101,12 +99,11 @@ var actions = {
         }
     },
     2:{
-        name:'toogle',
+        name:'toggle',
         element_id:null,
         time:null,
-        efect: null,
         do_now: function () {
-            toggle();
+            toggle(this.element_id,this.time);
         }
     },
     3:{
@@ -249,15 +246,7 @@ function show_elments(){
     }
 };
 
-function draw_image(img, ptox,ptoy,heiht,width){
-    canvas.drawImage(
-        img,
-        ptox,
-        ptoy,
-        heiht,
-        width
-    );
-}
+
 // ----Fin de Crud de Objetos JSON----
 
 //++++++++ Otras funcionalidades ++++++++++
@@ -293,6 +282,17 @@ function save_props(id_name){
 };
 
 // ++++++++++++++ Funciones de dibujo ++++++++++++++++
+
+// Pintar Imagenes Exportar
+function draw_image(img, ptox,ptoy,heiht,width){
+    canvas.drawImage(
+        img,
+        ptox,
+        ptoy,
+        heiht,
+        width
+    );
+}
 
 // Pintar lineas
 function draw_line(ptox1,ptoy1,ptox2,ptoy2) {
@@ -701,7 +701,7 @@ lienzo.addEventListener('mousedown', function (evt) {
     }
 }, false);
 
-// Eventos reales del sistema
+// Eventos reales del sistema Exportar
 
 lienzo.addEventListener('mousedown', function (evt) {
     if(evt.which == 1){
@@ -724,6 +724,8 @@ lienzo.addEventListener('mousedown', function (evt) {
         }
     }
 },false);
+
+// Recalcular tamano del lienzo Exportar
 
 window.addEventListener("resize", function(){
     rect = lienzo.getBoundingClientRect();
@@ -951,7 +953,14 @@ function show_action(){
             break;
         case 'scale':
             break;
-        case 'toogle':
+        case 'toggle':
+
+            actions_table.innerHTML = select_action_type(2);
+            actions_table.innerHTML += select_element();
+            actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
+            addE('#select_shape_action','change',save_select_action);
+            event_action_save("time");
+
             break;
         case 'text_show':
             break;
@@ -959,7 +968,7 @@ function show_action(){
             break;
         case 'on':
 
-            actions_table.innerHTML = select_action_type();
+            actions_table.innerHTML = select_action_type(5);
             actions_table.innerHTML += select_element();
             actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
 
@@ -968,6 +977,14 @@ function show_action(){
 
             break;
         case 'off':
+
+            actions_table.innerHTML = select_action_type(6);
+            actions_table.innerHTML += select_element();
+            actions_table.innerHTML += "<tr><td><label for='time'>Tiempo:</label><input id ='time' type='text' size='1%' value=1000 /></td></tr>";
+
+            addE('#select_shape_action','change',save_select_action);
+            event_action_save("time");
+
             break;
     }
 
@@ -997,18 +1014,13 @@ async function move_to(element_id,time,ptos,speed, line = null, ptos_init = null
     if(ptos_init == null){
         ptos_init = {ptox:elements_array[element_id].img_ptox, ptoy:elements_array[element_id].img_ptoy};
     };
-
     let len = JSON.stringify(ptos).length;
     let x = parseInt(ptos[0].ptox) - parseInt(elements_array[element_id].img_ptox);
     let y = parseInt(ptos[0].ptoy) - parseInt(elements_array[element_id].img_ptoy);
-
     if(line == null || ((x<=factor+1 && x >=-factor-1) && (y>=-1 && y <= 1))){
-
         if((x<=1 && x >=-1) && (y>=-1 && y <= 1)){
-
             elements_array[element_id].img_ptox = ptos[0].ptox;
             elements_array[element_id].img_ptoy = ptos[0].ptoy;
-
             delete ptos[0];
             let count = 0;
             for (element in ptos){
@@ -1030,6 +1042,7 @@ async function move_to(element_id,time,ptos,speed, line = null, ptos_init = null
             );
         }
     }
+
     if(len > 2) {
         if(elements_array[element_id].img_ptox<ptos[0].ptox){
             elements_array[element_id].img_ptox += factor;
@@ -1043,6 +1056,12 @@ async function move_to(element_id,time,ptos,speed, line = null, ptos_init = null
         correction_shapes(ptos_init, element_id);
     }
 }
+
+// Toggle
+
+async function toggle(element_id, time = null){
+    (elements_array[element_id].visibility)?(element_off(element_id,time)):(element_on(element_id,time));
+};
 
 // Scala de imagen
 
@@ -1060,14 +1079,16 @@ async function move_to(element_id,time,ptos,speed, line = null, ptos_init = null
 
 async function element_on(element_id, time = null) {
     elements_array[element_id].visibility = true;
-    setTimeout(show_elments,50);
-    setTimeout(show_elments,50);
+    setTimeout(show_elments,25);
+    setTimeout(show_elments,100);
 }
 
 // Desactivar imagen
 
 async function element_off(element_id, time = null) {
     elements_array[element_id].visibility = false;
+    setTimeout(show_elments,25);
+    setTimeout(show_elments,100);
 }
 
 // ------------------------------------- FIN  FUNCIONES DE ANIMACIONES ---------------------------------------
